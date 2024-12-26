@@ -65,7 +65,7 @@ const generateStrokeOutline = (points: Point[], pressureMultiplier: number): Out
   return outline;
 };
 
-export function StrokeLayer({ lines }: StrokeLayerProps) {
+export default function StrokeLayer({ lines }: StrokeLayerProps) {
   return (
     <>
       {lines.map((line, i) => (

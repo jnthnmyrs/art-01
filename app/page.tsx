@@ -1,3 +1,5 @@
+"use client";
+
 import { DrawingCanvas } from "@/components/drawing-canvas/DrawingCanvas";
 
 

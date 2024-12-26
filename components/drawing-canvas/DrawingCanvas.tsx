@@ -1,29 +1,19 @@
 "use client";
 
-import dynamic from 'next/dynamic';
+// import dynamic from 'next/dynamic';
 import { useRef, useEffect, useState } from "react";
 import { ToolBar } from "./ToolBar";
 import { useDrawingState } from "./useDrawingState";
 import { useKeyboardShortcuts } from "./useKeyboardShortcuts";
 import { Skeleton } from "@/components/ui/skeleton";
 import type Konva from "konva";
+import StrokeLayer from "./StrokeLayer";
+import { Layer, Stage } from 'react-konva';
 
-// Correctly import Stage and Layer
-const Stage = dynamic(
-  () => import('react-konva').then((mod) => mod.Stage),
-  { ssr: false }
-);
-
-const Layer = dynamic(
-  () => import('react-konva').then((mod) => mod.Layer),
-  { ssr: false }
-);
-
-// Import StrokeLayer component with named export
-const StrokeLayer = dynamic(
-  () => import('./StrokeLayer').then((mod) => mod.StrokeLayer),
-  { ssr: false }
-);
+// Import all components from react-konva at once
+// const ReactKonva = dynamic(() => import('react-konva'), {
+//   ssr: false,
+// });
 
 const MAX_CANVAS_SIZE = 750;
 
