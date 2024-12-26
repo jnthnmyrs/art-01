@@ -8,7 +8,7 @@ import { useDrawingState } from "./useDrawingState";
 import { useKeyboardShortcuts } from "./useKeyboardShortcuts";
 import { Skeleton } from "@/components/ui/skeleton";
 import type Konva from "konva";
-import { cn } from "@/lib/utils";
+
 
 const MAX_CANVAS_SIZE = 750;
 
