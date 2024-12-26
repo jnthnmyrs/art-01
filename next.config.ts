@@ -4,8 +4,7 @@ const nextConfig: NextConfig = {
   webpack: (config) => {
     config.externals = [
       ...(config.externals || []),
-      { canvas: "canvas" },
-      "jsdom"
+      { canvas: "canvas" }
     ];
 
     // Optionally, you might also need this resolver
