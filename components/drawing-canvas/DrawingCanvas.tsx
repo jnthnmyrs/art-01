@@ -8,19 +8,22 @@ import { useKeyboardShortcuts } from "./useKeyboardShortcuts";
 import { Skeleton } from "@/components/ui/skeleton";
 import type Konva from "konva";
 
-// Dynamically import Stage and Layer with ssr disabled
-const Stage = dynamic(() => import('react-konva').then((mod) => mod.Stage), {
-  ssr: false
-});
+// Correctly import Stage and Layer
+const Stage = dynamic(
+  () => import('react-konva').then((mod) => mod.Stage),
+  { ssr: false }
+);
 
-const Layer = dynamic(() => import('react-konva').then((mod) => mod.Layer), {
-  ssr: false
-});
+const Layer = dynamic(
+  () => import('react-konva').then((mod) => mod.Layer),
+  { ssr: false }
+);
 
-// Dynamically import StrokeLayer
-const StrokeLayer = dynamic(() => import('./StrokeLayer').then((mod) => mod.StrokeLayer), {
-  ssr: false
-});
+// Import StrokeLayer component with named export
+const StrokeLayer = dynamic(
+  () => import('./StrokeLayer').then((mod) => mod.StrokeLayer),
+  { ssr: false }
+);
 
 const MAX_CANVAS_SIZE = 750;
 
