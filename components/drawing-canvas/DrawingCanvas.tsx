@@ -1,6 +1,6 @@
 "use client";
 
-// import dynamic from 'next/dynamic';
+
 import { useRef, useEffect, useState } from "react";
 import { ToolBar } from "./ToolBar";
 import { useDrawingState } from "./useDrawingState";
@@ -10,10 +10,6 @@ import type Konva from "konva";
 import StrokeLayer from "./StrokeLayer";
 import { Layer, Stage } from 'react-konva';
 
-// Import all components from react-konva at once
-// const ReactKonva = dynamic(() => import('react-konva'), {
-//   ssr: false,
-// });
 
 const MAX_CANVAS_SIZE = 750;
 
