@@ -7,14 +7,7 @@ const nextConfig: NextConfig = {
       { canvas: "canvas" }
     ];
 
-    // Optionally, you might also need this resolver
-    config.resolve = {
-      ...config.resolve,
-      alias: {
-        ...config.resolve?.alias,
-        'paper': 'paper/dist/paper-core.js'
-      },
-    };
+
 
     return config;
   },
