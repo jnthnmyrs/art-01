@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "@/components/ui/toaster";
 import { Footer } from "@/components/Footer";
+import { Analytics } from "@vercel/analytics/react"
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -33,6 +34,7 @@ export default function RootLayout({
         <Toaster />
         <div className="whitespace-nowrap fixed bottom-0 right-0 h-fit w-fit p-2">
         <Footer />
+        <Analytics />
       </div>
       </body>
     </html>
