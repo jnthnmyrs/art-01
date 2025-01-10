@@ -112,6 +112,28 @@ export function DrawingCanvas() {
     document.body.removeChild(link);
   };
 
+  // Track the current pressure-adjusted size
+  const [currentSize, setCurrentSize] = useState(pressureMultiplier);
+
+  // Wrap the existing handleMouseMove to add pressure tracking
+  const handleMouseMoveWithPressure = (e: Konva.KonvaEventObject<PointerEvent>) => {
+    const pressure = e.evt.pressure || 0.5; // Default to 0.5 if pressure not supported
+    setCurrentSize(pressureMultiplier * pressure);
+    handleMouseMove(e); // Call the original handleMouseMove
+  };
+
+  // Helper function to get cursor style
+  const getCursorStyle = () => {
+    if (tool === 'eraser') {
+      const eraserSize = Math.min(currentSize/2, 20);  // Match brush scaling
+      return `url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 48 48" fill="none"><circle cx="24" cy="24" r="${eraserSize}" stroke="white" stroke-width="2"/><circle cx="24" cy="24" r="${eraserSize}" stroke="black" stroke-width="1" stroke-dasharray="3 3"/></svg>') 24 24, auto`;
+    }
+    // Scale cursor size with current pressure-adjusted size
+    const cursorSize = Math.min(currentSize/2, 20);
+    // Create SVG with both white outline and color stroke
+    return `url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 48 48" fill="none"><circle cx="24" cy="24" r="${cursorSize}" stroke="white" stroke-width="2"/><circle cx="24" cy="24" r="${cursorSize}" stroke="${encodeURIComponent(color)}" stroke-width="1"/></svg>') 24 24, auto`;
+  };
+
   return (
     <div className="w-full max-w-[800px] mx-auto px-4  flex flex-col">
       <ToolBar
@@ -145,9 +167,12 @@ export function DrawingCanvas() {
             width={dimensions.width}
             height={dimensions.height}
             onPointerDown={handleMouseDown}
-            onPointerMove={handleMouseMove}
+            onPointerMove={handleMouseMoveWithPressure}
             onPointerUp={handleMouseUp}
-            style={{ touchAction: 'none' }}
+            style={{ 
+              touchAction: 'none',
+              cursor: getCursorStyle()
+            }}
           >
             <Layer>
               <StrokeLayer lines={lines} />
