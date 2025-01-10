@@ -216,7 +216,7 @@ export function DrawingCanvas() {
             <Layer>
               <StrokeLayer 
                 lines={lines} 
-                brushStyle={brushStyle}
+                // brushStyle={brushStyle}
               />
             </Layer>
           </Stage>
