@@ -58,10 +58,10 @@ export function ToolBar({
   return (
     <div className=" px-0 lg:px-4 flex flex-wrap justify-evenly lg:justify-center w-full max-w-[800px] mx-auto items-center gap-2 lg:gap-4 z-10 mb-4">
       <TooltipProvider>
-        <div className="flex gap-2 w-full">
+        <div className="flex flex-col md:flex-row gap-2 w-full">
 
         
-        <div className="flex gap-2 w-full ">
+        <div className="flex gap-2 w-full  ">
           {/* Tools Group */}
           <div className="flex  items-center gap-2 p-2 bg-white/80 backdrop-blur rounded-lg shadow-sm">
             <Tooltip>
