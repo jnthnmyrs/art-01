@@ -37,7 +37,7 @@ const smoothAngle = (points: Point[], index: number, windowSize: number = 3): nu
 export const generateStrokeOutline = (
   rawPoints: Point[], 
   pressureMultiplier: number,
-  brushStyle: 'round' | 'flat'
+//   brushStyle: 'round' | 'flat'
 ): Point[] => {
   if (!rawPoints?.length || rawPoints.length < 2) return [];
   

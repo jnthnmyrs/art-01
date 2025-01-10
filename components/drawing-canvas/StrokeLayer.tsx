@@ -17,7 +17,7 @@ export default function StrokeLayer({ lines }: StrokeLayerProps) {
         const points = generateStrokeOutline(
           line.points, 
           line.pressureMultiplier,
-          line.brushStyle
+          // line.brushStyle
         );
         
         if (!points?.length) return null;
@@ -25,7 +25,7 @@ export default function StrokeLayer({ lines }: StrokeLayerProps) {
         return (
           <Shape
             key={i}
-            sceneFunc={(context, shape) => {
+            sceneFunc={(context) => {
               context.beginPath();
               
               const firstPoint = points[0];

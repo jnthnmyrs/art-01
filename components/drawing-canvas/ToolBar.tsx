@@ -52,8 +52,8 @@ export function ToolBar({
   onRedo,
   canUndo,
   canRedo,
-  brushStyle,
-  onBrushStyleChange,
+  // brushStyle,
+  // onBrushStyleChange,
 }: ToolBarProps) {
   return (
     <div className=" px-0 lg:px-4 flex flex-wrap justify-evenly lg:justify-center w-full max-w-[800px] mx-auto items-center gap-2 lg:gap-4 z-10 mb-4">
