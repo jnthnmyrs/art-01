@@ -1,22 +1,24 @@
-'use client';
+"use client";
 
-import { Brush, Eraser, Undo, Redo, Download, Trash2 } from 'lucide-react';
+import { Brush, Eraser, Undo, Redo, Download, Trash2 } from "lucide-react";
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { ColorPicker } from './ColorPicker';
+import { ColorPicker } from "./ColorPicker";
 import { cn } from "@/lib/utils";
 
 interface ToolBarProps {
-  tool: 'brush' | 'eraser';
+  tool: "brush" | "eraser";
   color: string;
   pressureMultiplier: number;
-  onToolChange: (tool: 'brush' | 'eraser') => void;
+  transparentBackground: boolean;
+  onToolChange: (tool: "brush" | "eraser") => void;
   onColorChange: (color: string) => void;
   onPressureMultiplierChange: (value: number) => void;
+  onTransparentBackgroundChange: (transparent: boolean) => void;
   onClear: () => void;
   onExport: () => void;
   onUndo: () => void;
@@ -26,18 +28,20 @@ interface ToolBarProps {
 }
 
 const BRUSH_SIZES = [
-  { value: 5, label: 'Small' },
-  { value: 25, label: 'Medium' },
-  { value: 50, label: 'Large' },
+  { value: 5, label: "Small" },
+  { value: 25, label: "Medium" },
+  { value: 50, label: "Large" },
 ] as const;
 
 export function ToolBar({
   tool,
   color,
   pressureMultiplier,
+  transparentBackground,
   onToolChange,
   onColorChange,
   onPressureMultiplierChange,
+  onTransparentBackgroundChange,
   onClear,
   onExport,
   onUndo,
@@ -55,9 +59,11 @@ export function ToolBar({
               <button
                 className={cn(
                   "p-2 rounded-md transition-colors",
-                  tool === 'brush' ? "bg-blue-100 text-blue-600" : "hover:bg-gray-100"
+                  tool === "brush"
+                    ? "bg-blue-100 text-blue-600"
+                    : "hover:bg-gray-100"
                 )}
-                onClick={() => onToolChange('brush')}
+                onClick={() => onToolChange("brush")}
               >
                 <Brush className="w-5 h-5" />
               </button>
@@ -72,9 +78,11 @@ export function ToolBar({
               <button
                 className={cn(
                   "p-2 rounded-md transition-colors",
-                  tool === 'eraser' ? "bg-blue-100 text-blue-600" : "hover:bg-gray-100"
+                  tool === "eraser"
+                    ? "bg-blue-100 text-blue-600"
+                    : "hover:bg-gray-100"
                 )}
-                onClick={() => onToolChange('eraser')}
+                onClick={() => onToolChange("eraser")}
               >
                 <Eraser className="w-5 h-5" />
               </button>
@@ -84,10 +92,7 @@ export function ToolBar({
             </TooltipContent>
           </Tooltip>
 
-          <ColorPicker 
-            selectedColor={color}
-            onColorChange={onColorChange}
-          />
+          <ColorPicker selectedColor={color} onColorChange={onColorChange} />
         </div>
 
         {/* Size Buttons */}
@@ -98,18 +103,18 @@ export function ToolBar({
                 <button
                   className={cn(
                     "w-8 h-8 rounded-md transition-colors",
-                    pressureMultiplier === value 
-                      ? "bg-blue-100 text-blue-600" 
+                    pressureMultiplier === value
+                      ? "bg-blue-100 text-blue-600"
                       : "hover:bg-gray-100"
                   )}
                   onClick={() => onPressureMultiplierChange(value)}
                 >
-                  <div 
+                  <div
                     className="mx-auto rounded-full bg-current"
-                    style={{ 
-                      width: Math.max(4, value * 0.35), 
-                      height: Math.max(4, value * 0.35) 
-                    }} 
+                    style={{
+                      width: Math.max(4, value * 0.35),
+                      height: Math.max(4, value * 0.35),
+                    }}
                   />
                 </button>
               </TooltipTrigger>
@@ -163,6 +168,51 @@ export function ToolBar({
           <Tooltip>
             <TooltipTrigger asChild>
               <button
+                className={cn(
+                  "p-2 rounded-md transition-colors",
+                  transparentBackground
+                    ? "bg-blue-100 text-blue-600"
+                    : "hover:bg-gray-100"
+                )}
+                onClick={() =>
+                  onTransparentBackgroundChange(!transparentBackground)
+                }
+              >
+                <svg
+                  className="w-5 h-5"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                >
+                  <path d="M12 2L2 12L12 22L22 12L12 2Z" />
+                  {transparentBackground && (
+                    <>
+                      <path
+                        d="M6 12H18"
+                        strokeDasharray={transparentBackground ? "1 1" : "2 2"}
+                      />
+                      <path
+                        d="M12 6V18"
+                        strokeDasharray={transparentBackground ? "1 1" : "2 2"}
+                      />
+                    </>
+                  )}
+                </svg>
+              </button>
+            </TooltipTrigger>
+            <TooltipContent>
+              <p>
+                {transparentBackground
+                  ? "Transparent Background"
+                  : "White Background"}
+              </p>
+            </TooltipContent>
+          </Tooltip>
+
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <button
                 className="p-2 rounded-md hover:bg-gray-100 transition-colors"
                 onClick={onExport}
               >
@@ -196,4 +246,4 @@ export function ToolBar({
       </div>
     </div>
   );
-} 
+}

@@ -8,7 +8,7 @@ import { useKeyboardShortcuts } from "./useKeyboardShortcuts";
 import { Skeleton } from "@/components/ui/skeleton";
 import type Konva from "konva";
 import StrokeLayer from "./StrokeLayer";
-import { Layer, Stage } from 'react-konva';
+import { Stage, Layer } from 'react-konva';
 
 
 const MAX_CANVAS_SIZE = 1000;
@@ -18,6 +18,7 @@ export function DrawingCanvas() {
   const stageRef = useRef<Konva.Stage>(null);
   const [dimensions, setDimensions] = useState({ width: 0, height: 0 });
   const [isReady, setIsReady] = useState(false);
+  const [transparentBackground, setTransparentBackground] = useState(false);
 
   const {
     lines,
@@ -102,14 +103,46 @@ export function DrawingCanvas() {
     const dataURL = stageRef.current.toDataURL({
       pixelRatio: 2, // Export at 2x resolution
       mimeType: "image/png",
+      ...(transparentBackground ? {} : { 
+        callback: ((dataUrl: string) => {
+          // Create a temporary canvas to modify the image
+          const tempCanvas = document.createElement('canvas');
+          const tempCtx = tempCanvas.getContext('2d');
+          const img = new Image();
+          
+          img.onload = () => {
+            if (tempCtx) {
+              tempCanvas.width = img.width;
+              tempCanvas.height = img.height;
+              tempCtx.drawImage(img, 0, 0);
+              tempCtx.globalCompositeOperation = 'destination-over';
+              tempCtx.fillStyle = 'white';
+              tempCtx.fillRect(0, 0, tempCanvas.width, tempCanvas.height);
+              
+              // Create download link
+              const link = document.createElement("a");
+              link.download = `drawing-${new Date().toISOString()}.png`;
+              link.href = tempCanvas.toDataURL('image/png');
+              document.body.appendChild(link);
+              link.click();
+              document.body.removeChild(link);
+            }
+          };
+          
+          img.src = dataUrl;
+        })
+      })
     });
 
-    const link = document.createElement("a");
-    link.download = `drawing-${new Date().toISOString()}.png`;
-    link.href = dataURL;
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
+    if (transparentBackground) {
+      // If transparent, download directly
+      const link = document.createElement("a");
+      link.download = `drawing-${new Date().toISOString()}.png`;
+      link.href = dataURL;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }
   };
 
   // Track the current pressure-adjusted size
@@ -140,9 +173,11 @@ export function DrawingCanvas() {
         tool={tool}
         color={color}
         pressureMultiplier={pressureMultiplier}
+        transparentBackground={transparentBackground}
         onToolChange={setTool}
         onColorChange={setColor}
         onPressureMultiplierChange={setPressureMultiplier}
+        onTransparentBackgroundChange={setTransparentBackground}
         onClear={handleClear}
         onExport={handleExport}
         onUndo={handleUndo}
