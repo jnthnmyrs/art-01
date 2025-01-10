@@ -36,6 +36,8 @@ export function DrawingCanvas() {
     handleRedo,
     canUndo,
     canRedo,
+    brushStyle,
+    setBrushStyle,
   } = useDrawingState();
 
   useKeyboardShortcuts({
@@ -184,6 +186,8 @@ export function DrawingCanvas() {
         onRedo={handleRedo}
         canUndo={canUndo}
         canRedo={canRedo}
+        brushStyle={brushStyle}
+        onBrushStyleChange={setBrushStyle}
       />
       
       <div 
@@ -210,7 +214,10 @@ export function DrawingCanvas() {
             }}
           >
             <Layer>
-              <StrokeLayer lines={lines} />
+              <StrokeLayer 
+                lines={lines} 
+                brushStyle={brushStyle}
+              />
             </Layer>
           </Stage>
         )}

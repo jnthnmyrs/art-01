@@ -16,7 +16,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "DRAWWWTIME.com",
+  title: "DRAWWW TIME",
   description: "A simple drawing app for the web.",
 };
 

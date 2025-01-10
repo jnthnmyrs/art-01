@@ -2,14 +2,16 @@
 
 import { useState, useRef } from 'react';
 import type Konva from 'konva';
-import { LineData, Point } from './types';
+import { Line, Point } from './types';
+import { BrushStyle } from './types';
 
 export function useDrawingState() {
-  const [lines, setLines] = useState<LineData[]>([]);
-  const [redoStack, setRedoStack] = useState<LineData[][]>([]);
+  const [lines, setLines] = useState<Line[]>([]);
+  const [redoStack, setRedoStack] = useState<Line[][]>([]);
   const [tool, setTool] = useState<'brush' | 'eraser'>('brush');
   const [color, setColor] = useState('#000000');
   const [pressureMultiplier, setPressureMultiplier] = useState(10);
+  const [brushStyle, setBrushStyle] = useState<BrushStyle>('round');
   const isDrawing = useRef(false);
   const lastPoints = useRef<Point[]>([]);
 
@@ -42,11 +44,12 @@ export function useDrawingState() {
     const point = { x: pos.x, y: pos.y, pressure };
     lastPoints.current = [point];
     
-    setLines([...lines, { 
+    setLines(prev => [...prev, {
       points: [point],
-      pressureMultiplier,
+      color,
       tool,
-      color
+      pressureMultiplier,
+      brushStyle,
     }]);
   };
 
@@ -100,5 +103,7 @@ export function useDrawingState() {
     handleRedo,
     canUndo: lines.length > 0,
     canRedo: redoStack.length > 0,
+    brushStyle,
+    setBrushStyle,
   };
 } 

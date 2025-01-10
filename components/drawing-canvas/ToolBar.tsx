@@ -1,6 +1,6 @@
 "use client";
 
-import { Brush, Eraser, Undo, Redo, Download, Trash2 } from "lucide-react";
+import { Brush, Eraser, Undo, Redo, Download, Trash2,  } from "lucide-react";
 import {
   Tooltip,
   TooltipContent,
@@ -9,6 +9,8 @@ import {
 } from "@/components/ui/tooltip";
 import { ColorPicker } from "./ColorPicker";
 import { cn } from "@/lib/utils";
+import { BrushStyle } from "./types";
+
 
 interface ToolBarProps {
   tool: "brush" | "eraser";
@@ -25,6 +27,8 @@ interface ToolBarProps {
   onRedo: () => void;
   canUndo: boolean;
   canRedo: boolean;
+  brushStyle: BrushStyle;
+  onBrushStyleChange: (style: BrushStyle) => void;
 }
 
 const BRUSH_SIZES = [
@@ -48,6 +52,8 @@ export function ToolBar({
   onRedo,
   canUndo,
   canRedo,
+  brushStyle,
+  onBrushStyleChange,
 }: ToolBarProps) {
   return (
     <div className=" px-0 lg:px-4 flex flex-wrap justify-evenly lg:justify-center w-full max-w-[800px] mx-auto items-center gap-2 lg:gap-4 z-10 mb-4">
@@ -95,6 +101,24 @@ export function ToolBar({
                 <p>Eraser (E)</p>
               </TooltipContent>
             </Tooltip>
+
+            {/* <Tooltip>
+              <TooltipTrigger asChild>
+                <button
+                  className="p-2 rounded-md transition-colors"
+                  onClick={() => onBrushStyleChange(brushStyle === 'round' ? 'flat' : 'round')}
+                >
+                  {brushStyle === 'round' ? (
+                    <Circle className="w-5 h-5" />
+                  ) : (
+                    <Square className="w-5 h-5" />
+                  )}
+                </button>
+              </TooltipTrigger>
+              <TooltipContent>
+                <p>Brush Style</p>
+              </TooltipContent>
+            </Tooltip> */}
 
             <ColorPicker selectedColor={color} onColorChange={onColorChange} />
           </div>
