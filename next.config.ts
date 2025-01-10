@@ -6,11 +6,8 @@ const nextConfig: NextConfig = {
       ...(config.externals || []),
       { canvas: "canvas" }
     ];
-
-
-
     return config;
-  },
+  }
 };
 
 export default nextConfig;

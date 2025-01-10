@@ -1,7 +1,11 @@
 "use client";
 
-import { DrawingCanvas } from "@/components/drawing-canvas/DrawingCanvas";
+import dynamic from 'next/dynamic';
 
+const DrawingCanvas = dynamic(
+  () => import('@/components/drawing-canvas/DrawingCanvas').then((mod) => mod.DrawingCanvas),
+  { ssr: false }
+);
 
 export default function Home() {
   return (
