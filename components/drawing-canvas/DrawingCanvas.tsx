@@ -11,7 +11,7 @@ import StrokeLayer from "./StrokeLayer";
 import { Layer, Stage } from 'react-konva';
 
 
-const MAX_CANVAS_SIZE = 750;
+const MAX_CANVAS_SIZE = 1000;
 
 export function DrawingCanvas() {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -113,7 +113,7 @@ export function DrawingCanvas() {
   };
 
   return (
-    <div className="w-full max-w-[800px] mx-auto px-4 lg:flex-row flex flex-col">
+    <div className="w-full max-w-[800px] mx-auto px-4  flex flex-col">
       <ToolBar
         tool={tool}
         color={color}

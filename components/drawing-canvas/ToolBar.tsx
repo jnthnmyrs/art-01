@@ -46,10 +46,10 @@ export function ToolBar({
   canRedo,
 }: ToolBarProps) {
   return (
-    <div className=" px-0 lg:px-4 flex flex-wrap justify-between lg:justify-center w-full max-w-[800px] mx-auto items-center gap-2 lg:gap-4 z-10 mb-4">
+    <div className=" px-0 lg:px-4 flex flex-wrap justify-evenly lg:justify-center w-full max-w-[800px] mx-auto items-center gap-2 lg:gap-4 z-10 mb-4">
       <TooltipProvider>
         {/* Tools Group */}
-        <div className="flex lg:flex-col items-center gap-2 p-2 bg-white/80 backdrop-blur rounded-lg shadow-sm">
+        <div className="flex  items-center gap-2 p-2 bg-white/80 backdrop-blur rounded-lg shadow-sm">
           <Tooltip>
             <TooltipTrigger asChild>
               <button
@@ -91,7 +91,7 @@ export function ToolBar({
         </div>
 
         {/* Size Buttons */}
-        <div className="flex lg:flex-col items-center gap-2 p-2 bg-white/80 backdrop-blur rounded-lg shadow-sm">
+        <div className="flex  items-center gap-2 p-2 bg-white/80 backdrop-blur rounded-lg shadow-sm">
           {BRUSH_SIZES.map(({ value, label }) => (
             <Tooltip key={value}>
               <TooltipTrigger asChild>
@@ -121,7 +121,7 @@ export function ToolBar({
         </div>
 
         {/* History/Export Group */}
-        <div className="flex lg:flex-col items-center gap-2 p-2 bg-white/80 backdrop-blur rounded-lg shadow-sm">
+        <div className="flex  items-center gap-2 p-2 bg-white/80 backdrop-blur rounded-lg shadow-sm">
           <Tooltip>
             <TooltipTrigger asChild>
               <button
