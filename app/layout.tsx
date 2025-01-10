@@ -17,7 +17,7 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "DRAWWWTIME.com",
-  description: "Draw something right here.",
+  description: "A simple drawing app for the web.",
 };
 
 export default function RootLayout({

@@ -170,7 +170,7 @@ export function ToolBar({
               </button>
             </TooltipTrigger>
             <TooltipContent>
-              <p>Export (⌘S)</p>
+              <p>Export</p>
             </TooltipContent>
           </Tooltip>
         </div>
