@@ -171,7 +171,7 @@ export function DrawingCanvas() {
   };
 
   return (
-    <div className="w-full max-w-[800px] mx-auto px-4  flex flex-col">
+    <div className="w-full max-w-[790px] mx-auto px-4 py-0 m-0  flex flex-col ">
       <ToolBar
         tool={tool}
         color={color}

@@ -1,6 +1,14 @@
 "use client";
 
-import { Brush, Eraser, Undo, Redo, Download, Trash2,  } from "lucide-react";
+import {
+  Brush,
+  Eraser,
+  Undo2,
+  Redo2,
+  Download,
+  Trash2,
+
+} from "lucide-react";
 import {
   Tooltip,
   TooltipContent,
@@ -10,6 +18,7 @@ import {
 import { ColorPicker } from "./ColorPicker";
 import { cn } from "@/lib/utils";
 import { BrushStyle } from "./types";
+import { Button } from "@/components/ui/button";
 
 
 interface ToolBarProps {
@@ -41,42 +50,33 @@ export function ToolBar({
   tool,
   color,
   pressureMultiplier,
-  transparentBackground,
+  // transparentBackground,
   onToolChange,
   onColorChange,
   onPressureMultiplierChange,
-  onTransparentBackgroundChange,
+  // onTransparentBackgroundChange,
   onClear,
   onExport,
   onUndo,
   onRedo,
   canUndo,
   canRedo,
-  // brushStyle,
-  // onBrushStyleChange,
 }: ToolBarProps) {
   return (
-    <div className=" px-0 lg:px-4 flex flex-wrap justify-evenly lg:justify-center w-full max-w-[800px] mx-auto items-center gap-2 lg:gap-4 z-10 mb-4">
+    <div className="absolute top-4  left-4 lg:top-1/2 lg:-translate-y-1/2 lg:left-4 z-10">
       <TooltipProvider>
-        <div className="flex flex-col md:flex-row gap-2 w-full">
-
-        
-        <div className="flex gap-2 w-full  ">
+        <div className="flex flex-wrap lg:flex-col gap-2">
           {/* Tools Group */}
-          <div className="flex  items-center gap-2 p-2 bg-white/80 backdrop-blur rounded-lg shadow-sm">
+          <div className="flex flex-row lg:flex-col items-center gap-2 p-2 bg-white/80 backdrop-blur rounded-lg shadow-sm">
             <Tooltip>
               <TooltipTrigger asChild>
-                <button
-                  className={cn(
-                    "p-2 rounded-md transition-colors",
-                    tool === "brush"
-                      ? "bg-blue-100 text-blue-600"
-                      : "hover:bg-gray-100"
-                  )}
+                <Button
+                  size="icon"
+                  variant={tool === "brush" ? "default" : "ghost"}
                   onClick={() => onToolChange("brush")}
                 >
-                  <Brush className="w-5 h-5" />
-                </button>
+                  <Brush className="h-4 w-4" />
+                </Button>
               </TooltipTrigger>
               <TooltipContent>
                 <p>Brush (B)</p>
@@ -85,57 +85,30 @@ export function ToolBar({
 
             <Tooltip>
               <TooltipTrigger asChild>
-                <button
-                  className={cn(
-                    "p-2 rounded-md transition-colors",
-                    tool === "eraser"
-                      ? "bg-blue-100 text-blue-600"
-                      : "hover:bg-gray-100"
-                  )}
+                <Button
+                  size="icon"
+                  variant={tool === "eraser" ? "default" : "ghost"}
                   onClick={() => onToolChange("eraser")}
                 >
-                  <Eraser className="w-5 h-5" />
-                </button>
+                  <Eraser className="h-4 w-4" />
+                </Button>
               </TooltipTrigger>
               <TooltipContent>
                 <p>Eraser (E)</p>
               </TooltipContent>
             </Tooltip>
-
-            {/* <Tooltip>
-              <TooltipTrigger asChild>
-                <button
-                  className="p-2 rounded-md transition-colors"
-                  onClick={() => onBrushStyleChange(brushStyle === 'round' ? 'flat' : 'round')}
-                >
-                  {brushStyle === 'round' ? (
-                    <Circle className="w-5 h-5" />
-                  ) : (
-                    <Square className="w-5 h-5" />
-                  )}
-                </button>
-              </TooltipTrigger>
-              <TooltipContent>
-                <p>Brush Style</p>
-              </TooltipContent>
-            </Tooltip> */}
-
-            <ColorPicker selectedColor={color} onColorChange={onColorChange} />
           </div>
 
           {/* Size Buttons */}
-          <div className="flex  items-center gap-2 p-2 bg-white/80 backdrop-blur rounded-lg shadow-sm">
-            {BRUSH_SIZES.map(({ value, label }) => (
+          <div className="flex flex-row lg:flex-col items-center gap-2 p-2 bg-white/80 backdrop-blur rounded-lg shadow-sm">
+            {BRUSH_SIZES.map(({ value, label }, index) => (
               <Tooltip key={value}>
                 <TooltipTrigger asChild>
-                  <button
-                    className={cn(
-                      "w-8 h-8 rounded-md transition-colors",
-                      pressureMultiplier === value
-                        ? "bg-blue-100 text-blue-600"
-                        : "hover:bg-gray-100"
-                    )}
+                  <Button
+                    size="icon"
+                    variant={pressureMultiplier === value ? 'default' : 'ghost'}
                     onClick={() => onPressureMultiplierChange(value)}
+                    className="w-8 h-8"
                   >
                     <div
                       className="mx-auto rounded-full bg-current"
@@ -144,114 +117,59 @@ export function ToolBar({
                         height: Math.max(4, value * 0.35),
                       }}
                     />
-                  </button>
+                  </Button>
                 </TooltipTrigger>
                 <TooltipContent>
-                  <p>{label}</p>
+                  <p>{label} ({index + 1})</p>
                 </TooltipContent>
               </Tooltip>
             ))}
           </div>
-        </div>
 
-        <div className="flex  gap-2 items-center justify-between w-full">
-          {/* History/Export Group */}
-          <div className="flex  items-center gap-2 p-2 bg-white/80 backdrop-blur rounded-lg shadow-sm">
+          {/* Color Picker */}
+          <div className="flex flex-row lg:flex-col items-center gap-2 p-2 bg-white/80 backdrop-blur rounded-lg shadow-sm">
+            <ColorPicker selectedColor={color} onColorChange={onColorChange} />
+          </div>
+
+          {/* Actions Group */}
+          <div className="flex flex-row lg:flex-col items-center gap-2 p-2 bg-white/80 backdrop-blur rounded-lg shadow-sm">
             <Tooltip>
               <TooltipTrigger asChild>
-                <button
-                  className={cn(
-                    "p-2 rounded-md transition-colors",
-                    !canUndo && "opacity-50 cursor-not-allowed",
-                    canUndo && "hover:bg-gray-100"
-                  )}
+                <Button
+                  size="icon"
+                  variant="ghost"
                   onClick={onUndo}
                   disabled={!canUndo}
                 >
-                  <Undo className="w-5 h-5" />
-                </button>
+                  <Undo2 className="h-4 w-4" />
+                </Button>
               </TooltipTrigger>
               <TooltipContent>
-                <p>Undo (⌘Z)</p>
+                <p>Undo (Ctrl/⌘ + Z)</p>
               </TooltipContent>
             </Tooltip>
 
             <Tooltip>
               <TooltipTrigger asChild>
-                <button
-                  className={cn(
-                    "p-2 rounded-md transition-colors",
-                    !canRedo && "opacity-50 cursor-not-allowed",
-                    canRedo && "hover:bg-gray-100"
-                  )}
+                <Button
+                  size="icon"
+                  variant="ghost"
                   onClick={onRedo}
                   disabled={!canRedo}
                 >
-                  <Redo className="w-5 h-5" />
-                </button>
+                  <Redo2 className="h-4 w-4" />
+                </Button>
               </TooltipTrigger>
               <TooltipContent>
-                <p>Redo (⌘⇧Z)</p>
+                <p>Redo (Ctrl/⌘ + Shift + Z)</p>
               </TooltipContent>
             </Tooltip>
 
             <Tooltip>
               <TooltipTrigger asChild>
-                <button
-                  className={cn(
-                    "p-2 rounded-md transition-colors",
-                    transparentBackground
-                      ? "bg-blue-100 text-blue-600"
-                      : "hover:bg-gray-100"
-                  )}
-                  onClick={() =>
-                    onTransparentBackgroundChange(!transparentBackground)
-                  }
-                >
-                  <svg
-                    className="w-5 h-5"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                  >
-                    <path d="M12 2L2 12L12 22L22 12L12 2Z" />
-                    {transparentBackground && (
-                      <>
-                        <path
-                          d="M6 12H18"
-                          strokeDasharray={
-                            transparentBackground ? "1 1" : "2 2"
-                          }
-                        />
-                        <path
-                          d="M12 6V18"
-                          strokeDasharray={
-                            transparentBackground ? "1 1" : "2 2"
-                          }
-                        />
-                      </>
-                    )}
-                  </svg>
-                </button>
-              </TooltipTrigger>
-              <TooltipContent>
-                <p>
-                  {transparentBackground
-                    ? "Transparent Background"
-                    : "White Background"}
-                </p>
-              </TooltipContent>
-            </Tooltip>
-
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <button
-                  className="p-2 rounded-md hover:bg-gray-100 transition-colors"
-                  onClick={onExport}
-                >
-                  <Download className="w-5 h-5" />
-                </button>
+                <Button size="icon" variant="ghost" onClick={onExport}>
+                  <Download className="h-4 w-4" />
+                </Button>
               </TooltipTrigger>
               <TooltipContent>
                 <p>Export</p>
@@ -259,23 +177,19 @@ export function ToolBar({
             </Tooltip>
           </div>
 
-          {/* Delete Button - Far Right */}
-          <div className="">
+          {/* Clear Button */}
+          <div className="flex flex-row lg:flex-col items-center gap-2 p-2 bg-white/80 backdrop-blur rounded-lg shadow-sm">
             <Tooltip>
               <TooltipTrigger asChild>
-                <button
-                  className="p-2 rounded-md bg-red-50 text-red-600 hover:bg-red-100 transition-colors"
-                  onClick={onClear}
-                >
-                  <Trash2 className="w-5 h-5" />
-                </button>
+                <Button size="icon" variant="ghost" onClick={onClear}>
+                  <Trash2 className="h-4 w-4" />
+                </Button>
               </TooltipTrigger>
               <TooltipContent>
                 <p>Clear Canvas</p>
               </TooltipContent>
             </Tooltip>
           </div>
-        </div>
         </div>
       </TooltipProvider>
     </div>

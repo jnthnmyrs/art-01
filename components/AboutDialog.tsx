@@ -26,12 +26,16 @@ export function AboutDialog() {
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px] text-left">
         <DialogHeader>
-          <DialogTitle>About Drawww Time</DialogTitle>
-          <DialogDescription className="space-y-4">
-            <div className="space-y-2">
+          <DialogTitle>Drawww Time</DialogTitle>
+          <div className="space-y-4">
+            <div className="space-y-2 text-gray-500">
               {`A simple drawing app for the web. Just draw.`}
+              <br />
+              <span className="text-xs">
+                {`Best experienced on desktop.`}
+              </span>
             </div>
-            <div className="space-y-2 text-left">
+            <div className="space-y-2 text-left text-gray-500">
               <div className="font-medium">Keyboard Shortcuts:</div>
               <ul className="list-disc pl-4 space-y-1">
                 <li><kbd className="px-1 rounded bg-gray-100">B</kbd> - Brush tool</li>
@@ -41,7 +45,7 @@ export function AboutDialog() {
                 <li><kbd className="px-1 rounded bg-gray-100">Ctrl/⌘</kbd> + <kbd className="px-1 rounded bg-gray-100">Shift</kbd> + <kbd className="px-1 rounded bg-gray-100">Z</kbd> - Redo</li>
               </ul>
             </div>
-          </DialogDescription>
+          </div>
         </DialogHeader>
         <a
         href="https://jonathan.now"
