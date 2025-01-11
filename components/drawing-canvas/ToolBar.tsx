@@ -16,7 +16,7 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { ColorPicker } from "./ColorPicker";
-import { cn } from "@/lib/utils";
+// import { cn } from "@/lib/utils";
 import { BrushStyle } from "./types";
 import { Button } from "@/components/ui/button";
 
