@@ -24,15 +24,15 @@ export function AboutDialog() {
           <Info className="h-4 w-4" />
         </Button>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-[425px]">
+      <DialogContent className="sm:max-w-[425px] text-left">
         <DialogHeader>
           <DialogTitle>About Drawww Time</DialogTitle>
           <DialogDescription className="space-y-4">
-            <p>
-              {`A simple drawing app for the web. Just draw.`}
-            </p>
             <div className="space-y-2">
-              <p className="font-medium">Keyboard Shortcuts:</p>
+              {`A simple drawing app for the web. Just draw.`}
+            </div>
+            <div className="space-y-2 text-left">
+              <div className="font-medium">Keyboard Shortcuts:</div>
               <ul className="list-disc pl-4 space-y-1">
                 <li><kbd className="px-1 rounded bg-gray-100">B</kbd> - Brush tool</li>
                 <li><kbd className="px-1 rounded bg-gray-100">E</kbd> - Eraser tool</li>
