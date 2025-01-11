@@ -29,7 +29,7 @@ export function AboutDialog() {
           <DialogTitle>Drawww Time</DialogTitle>
           <div className="space-y-4">
             <div className="space-y-2 text-gray-500">
-              {`A simple drawing app for the web. Just draw.`}
+              {`A simple drawing app for the web.`}
               <br />
               <span className="text-xs">
                 {`Best experienced on desktop.`}
