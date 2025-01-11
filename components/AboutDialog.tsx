@@ -10,7 +10,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { Info } from "lucide-react";
+
 
 export function AboutDialog() {
   return (
@@ -19,9 +19,9 @@ export function AboutDialog() {
         <Button
           variant="ghost"
           size="icon"
-          className="absolute bottom-4 right-4 h-8 w-8 rounded-full bg-white/80 backdrop-blur hover:bg-white/90"
+          className="absolute bottom-4 right-4 h-8 w-8 rounded-full bg-white/80 backdrop-blur hover:bg-white/90 drop-shadow-md hover:drop-shadow-lg transition-all duration-200"
         >
-          <Info className="h-4 w-4" />
+         <Image src="/info-mark.png" alt="Drawww Time Info" width={32} height={32} />
         </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px] text-left">
@@ -31,8 +31,8 @@ export function AboutDialog() {
             <div className="space-y-2 text-gray-500">
               {`A simple drawing app for the web.`}
               <br />
-              <span className="text-xs">
-                {`Best experienced on desktop.`}
+              <span className="text-xs mt-2">
+                {`(Best experienced on desktop)`}
               </span>
             </div>
             <div className="space-y-2 text-left text-gray-500">
