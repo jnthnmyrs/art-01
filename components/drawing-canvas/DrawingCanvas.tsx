@@ -44,6 +44,7 @@ export function DrawingCanvas() {
     onUndo: handleUndo,
     onRedo: handleRedo,
     setTool,
+    setPressureMultiplier,
   });
 
   // Single effect for initialization and resize

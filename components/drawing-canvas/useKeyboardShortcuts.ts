@@ -6,9 +6,15 @@ interface KeyboardShortcutProps {
   onUndo: () => void;
   onRedo: () => void;
   setTool: (tool: 'brush' | 'eraser') => void;
+  setPressureMultiplier: (value: number) => void;
 }
 
-export function useKeyboardShortcuts({ onUndo, onRedo, setTool }: KeyboardShortcutProps) {
+export function useKeyboardShortcuts({ 
+  onUndo, 
+  onRedo, 
+  setTool,
+  setPressureMultiplier 
+}: KeyboardShortcutProps) {
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       // Check if we're in an input field
@@ -37,11 +43,20 @@ export function useKeyboardShortcuts({ onUndo, onRedo, setTool }: KeyboardShortc
           case 'e':
             setTool('eraser');
             break;
+          case '1':
+            setPressureMultiplier(5); // Small
+            break;
+          case '2':
+            setPressureMultiplier(25); // Medium
+            break;
+          case '3':
+            setPressureMultiplier(50); // Large
+            break;
         }
       }
     };
 
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [onUndo, onRedo, setTool]);
+  }, [onUndo, onRedo, setTool, setPressureMultiplier]);
 } 
