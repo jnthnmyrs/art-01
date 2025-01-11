@@ -29,7 +29,7 @@ export function AboutDialog() {
           <DialogTitle>About Drawww Time</DialogTitle>
           <DialogDescription className="space-y-4">
             <p>
-              A simple drawing app for the web. Everything you need, nothing you don't.
+              {`A simple drawing app for the web. Just draw.`}
             </p>
             <div className="space-y-2">
               <p className="font-medium">Keyboard Shortcuts:</p>
