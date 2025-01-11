@@ -18,6 +18,40 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "DRAWWW TIME",
   description: "A simple drawing app for the web.",
+  keywords: ["drawing", "canvas", "art", "sketch", "pressure sensitivity", "web app"],
+  authors: [{ name: "Jonathan Myers" }],
+  openGraph: {
+    title: "DRAWWW TIME",
+    description: "A simple drawing app for the web.",
+    images: [
+      {
+        url: "/opengraph-image.png",
+        width: 1200,
+        height: 630,
+        alt: "DRAWWW TIME - A simple drawing app for the web",
+      },
+    ],
+    locale: "en_US",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "DRAWWW TIME",
+    description: "A simple drawing app for the web.",
+    images: ["/opengraph-image.png"],
+    creator: "@jnthnmyrs",
+  },
+  viewport: {
+    width: "device-width",
+    initialScale: 1,
+  },
+  icons: {
+    icon: "/favicon.ico",
+    shortcut: "/favicon-16x16.png",
+    apple: "/apple-touch-icon.png",
+  },
+  manifest: "/site.webmanifest",
+  themeColor: "#ffffff",
 };
 
 export default function RootLayout({
@@ -32,8 +66,7 @@ export default function RootLayout({
       >
         {children}
         <Toaster />
-        <div className="whitespace-nowrap fixed bottom-0 right-0  w-fit">
-
+        <div className="whitespace-nowrap fixed bottom-0 right-0 w-fit">
           <AboutDialog />
           <Analytics />
         </div>
