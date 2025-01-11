@@ -63,7 +63,7 @@ export function ToolBar({
   canRedo,
 }: ToolBarProps) {
   return (
-    <div className="absolute top-4  left-4 lg:top-1/2 lg:-translate-y-1/2 lg:left-4 z-10">
+    <div className="absolute -top-32 sm:-top-8 md:-top-16   left-4 lg:top-1/2 lg:-translate-y-1/2 lg:-left-16 z-10">
       <TooltipProvider>
         <div className="flex flex-wrap lg:flex-col gap-2">
           {/* Tools Group */}
