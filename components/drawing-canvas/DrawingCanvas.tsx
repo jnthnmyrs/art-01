@@ -9,6 +9,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import type Konva from "konva";
 import StrokeLayer from "./StrokeLayer";
 import { Stage, Layer } from 'react-konva';
+import { track } from '@vercel/analytics';
 
 
 const MAX_CANVAS_SIZE = 1000;
@@ -146,6 +147,7 @@ export function DrawingCanvas() {
       link.click();
       document.body.removeChild(link);
     }
+    track('Downloaded drawing');
   };
 
   // Track the current pressure-adjusted size
