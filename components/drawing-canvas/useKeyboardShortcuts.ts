@@ -11,13 +11,13 @@ interface KeyboardShortcutProps {
 }
 
 const BRUSH_SIZES = [
-  { value: 5, label: "Tiny" },
-  { value: 10, label: "Small" },
-  { value: 25, label: "Medium" },
-  { value: 50, label: "Large" },
-  { value: 100, label: "Extra Large" },
-  { value: 200, label: "Huge" },
-  { value: 400, label: "Massive" },
+  { value: 5, label: "Tiny", iconSize: 10 },
+  { value: 10, label: "Small", iconSize: 15 },
+  { value: 25, label: "Medium", iconSize: 20 },
+  { value: 50, label: "Large", iconSize: 25 },
+  { value: 100, label: "Extra Large", iconSize: 30 },
+  { value: 200, label: "Huge", iconSize: 35 },
+  { value: 400, label: "Massive", iconSize: 40 },
 ] as const;
 
 export function useKeyboardShortcuts({

@@ -43,7 +43,7 @@ export function AboutDialog() {
               <ul className="list-disc pl-4 space-y-1">
                 <li><kbd className="px-1 rounded bg-gray-100">B</kbd> - Brush tool</li>
                 <li><kbd className="px-1 rounded bg-gray-100">E</kbd> - Eraser tool</li>
-                <li><kbd className="px-1 rounded bg-gray-100">1</kbd> <kbd className="px-1 rounded bg-gray-100">2</kbd> <kbd className="px-1 rounded bg-gray-100">3</kbd> - Brush sizes</li>
+                <li><kbd className="px-1 rounded bg-gray-100">[</kbd> <kbd className="px-1 rounded bg-gray-100">]</kbd> - Change brush sizes</li>
                 <li><kbd className="px-1 rounded bg-gray-100">Ctrl/⌘</kbd> + <kbd className="px-1 rounded bg-gray-100">Z</kbd> - Undo</li>
                 <li><kbd className="px-1 rounded bg-gray-100">Ctrl/⌘</kbd> + <kbd className="px-1 rounded bg-gray-100">Shift</kbd> + <kbd className="px-1 rounded bg-gray-100">Z</kbd> - Redo</li>
               </ul>

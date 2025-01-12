@@ -41,13 +41,13 @@ interface ToolBarProps {
 }
 
 const BRUSH_SIZES = [
-  { value: 5, label: "Tiny" },
-  { value: 10, label: "Small" },
-  { value: 25, label: "Medium" },
-  { value: 50, label: "Large" },
-  { value: 100, label: "Extra Large" },
-  { value: 200, label: "Huge" },
-  { value: 400, label: "Massive" },
+  { value: 5, label: "Tiny", iconSize: 2 },
+  { value: 10, label: "Small", iconSize: 4 },
+  { value: 25, label: "Medium", iconSize: 6 },
+  { value: 50, label: "Large", iconSize: 12 },
+  { value: 100, label: "Extra Large", iconSize: 20 },
+  { value: 200, label: "Huge", iconSize: 24 },
+  { value: 400, label: "Massive", iconSize: 28 },
 ] as const;
 
 export function ToolBar({
@@ -105,7 +105,7 @@ export function ToolBar({
 
           {/* Size Buttons */}
           <div className="flex flex-row lg:flex-col items-center gap-2 p-2 bg-white/80 backdrop-blur rounded-lg shadow-sm">
-            {BRUSH_SIZES.map(({ value, label }, ) => (
+            {BRUSH_SIZES.map(({ value, label, iconSize }) => (
               <Tooltip key={value}>
                 <TooltipTrigger asChild>
                   <Button
@@ -117,8 +117,8 @@ export function ToolBar({
                     <div
                       className="mx-auto rounded-full bg-current"
                       style={{
-                        width: Math.max(4, value * 0.08),
-                        height: Math.max(4, value * 0.08),
+                        width: iconSize,
+                        height: iconSize,
                       }}
                     />
                   </Button>
