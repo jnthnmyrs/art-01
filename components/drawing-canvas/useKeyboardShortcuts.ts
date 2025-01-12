@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect } from 'react';
+import { useEyeDropper } from './ColorPicker';
 
 interface KeyboardShortcutProps {
   onUndo: () => void;
@@ -8,6 +9,7 @@ interface KeyboardShortcutProps {
   setTool: (tool: 'brush' | 'eraser') => void;
   setPressureMultiplier: (value: number) => void;
   pressureMultiplier: number;
+  onColorChange: (color: string) => void;
 }
 
 const BRUSH_SIZES = [
@@ -26,6 +28,7 @@ export function useKeyboardShortcuts({
   setTool,
   setPressureMultiplier,
   pressureMultiplier,
+  onColorChange,
 }: KeyboardShortcutProps) {
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -38,6 +41,8 @@ export function useKeyboardShortcuts({
         setTool('brush');
       } else if (e.key === 'e') {
         setTool('eraser');
+      } else if (e.key === 'i') {
+        useEyeDropper(onColorChange);
       } else if (e.key === '[' || e.key === ']') {
         // Find current size index
         const currentIndex = BRUSH_SIZES.findIndex(
@@ -65,5 +70,5 @@ export function useKeyboardShortcuts({
 
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [onUndo, onRedo, setTool, setPressureMultiplier, pressureMultiplier]);
+  }, [onUndo, onRedo, setTool, setPressureMultiplier, pressureMultiplier, onColorChange]);
 } 

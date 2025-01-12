@@ -31,7 +31,7 @@ export function AboutDialog() {
             Drawww Time
           </DialogTitle>
           <div className="space-y-4">
-            <div className="space-y-2 text-gray-500">
+            <div className="space-y-2 text-gray-500 text-left">
               {`A simple drawing app for the web.`}
               <br />
               <span className="text-xs mt-2">
@@ -41,9 +41,10 @@ export function AboutDialog() {
             <div className="space-y-2 text-left text-gray-500 text-sm">
               <div className="font-medium">Keyboard Shortcuts:</div>
               <ul className="list-disc pl-4 space-y-1">
-                <li><kbd className="px-1 rounded bg-gray-100">B</kbd> - Brush tool</li>
-                <li><kbd className="px-1 rounded bg-gray-100">E</kbd> - Eraser tool</li>
-                <li><kbd className="px-1 rounded bg-gray-100">[</kbd> <kbd className="px-1 rounded bg-gray-100">]</kbd> - Change brush sizes</li>
+                <li><kbd className="px-1 rounded bg-gray-100">B</kbd> - Brush</li>
+                <li><kbd className="px-1 rounded bg-gray-100">[</kbd> <kbd className="px-1 rounded bg-gray-100">]</kbd> - Adjust brush size</li>
+                <li><kbd className="px-1 rounded bg-gray-100">I</kbd> - Eyedropper</li>
+                <li><kbd className="px-1 rounded bg-gray-100">E</kbd> - Eraser</li>
                 <li><kbd className="px-1 rounded bg-gray-100">Ctrl/⌘</kbd> + <kbd className="px-1 rounded bg-gray-100">Z</kbd> - Undo</li>
                 <li><kbd className="px-1 rounded bg-gray-100">Ctrl/⌘</kbd> + <kbd className="px-1 rounded bg-gray-100">Shift</kbd> + <kbd className="px-1 rounded bg-gray-100">Z</kbd> - Redo</li>
               </ul>

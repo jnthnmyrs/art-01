@@ -1,87 +1,76 @@
 'use client';
 
+import { useState } from 'react';
+import { HexColorPicker } from "react-colorful";
+import { Pipette } from 'lucide-react';
+import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import { useState } from "react";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
-
-import { COLORS } from "./Colors";
-
 
 interface ColorPickerProps {
   selectedColor: string;
   onColorChange: (color: string) => void;
 }
 
+// Export this function so we can reuse it in useKeyboardShortcuts
+export async function useEyeDropper(onColorChange: (color: string) => void) {
+  if (!('EyeDropper' in window)) {
+    console.warn('EyeDropper API is not supported in this browser');
+    return;
+  }
 
-
-type ColorName = keyof typeof COLORS;
+  try {
+    const eyeDropper = new (window as any).EyeDropper();
+    const result = await eyeDropper.open();
+    onColorChange(result.sRGBHex);
+  } catch (e) {
+    // User canceled the eye dropper
+    console.log('EyeDropper cancelled');
+  }
+}
 
 export function ColorPicker({ selectedColor, onColorChange }: ColorPickerProps) {
-  const [selectedFamily, setSelectedFamily] = useState<ColorName | null>(null);
+  const [showPicker, setShowPicker] = useState(false);
 
   return (
-    <Popover>
-      <PopoverTrigger asChild>
+    <div className="flex flex-col gap-4 items-center">
+      <div className="flex lg:flex-col gap-2">
+        {/* Current Color Swatch */}
         <button
-          className="flex items-center gap-2 p-2 rounded-md hover:bg-gray-100 transition-colors"
-        >
+          className="w-10 h-10 rounded-lg shadow-md hover:shadow-lg transition-shadow ring-2 ring-white"
+          style={{ backgroundColor: selectedColor }}
+          onClick={() => setShowPicker(!showPicker)}
+          title="Open color picker"
+        />
+        
+        {/* Eyedropper Button */}
+        {'EyeDropper' in window && (
+          <Button
+            variant="outline"
+            size="icon"
+            className="w-10 h-10"
+            onClick={() => useEyeDropper(onColorChange)}
+            title="Pick color from screen (I)"
+          >
+            <Pipette className="h-4 w-4" />
+          </Button>
+        )}
+      </div>
+
+      {/* Color Picker Popover */}
+      {showPicker && (
+        <div className="absolute left-full ml-2 z-50">
           <div 
-            className="w-5 h-5 rounded-md border border-gray-200"
-            style={{ backgroundColor: selectedColor }}
+            className="fixed inset-0" 
+            onClick={() => setShowPicker(false)} 
           />
-        </button>
-      </PopoverTrigger>
-      <PopoverContent side="bottom" align="start" className="w-[320px] p-3">
-        <div className="grid grid-cols-5 gap-2">
-          {Object.entries(COLORS).map(([colorName, shades]) => (
-            <div key={colorName} className="space-y-1">
-              <button
-                className={cn(
-                  "w-full group flex flex-col items-center gap-1",
-                  "focus:outline-none"
-                )}
-                onClick={() => setSelectedFamily(colorName as ColorName)}
-              >
-                <div 
-                  className={cn(
-                    "w-10 h-10 rounded-md transition-all",
-                    selectedFamily === colorName 
-                      ? "ring-2 ring-offset-2 ring-gray-400 scale-105" 
-                      : "hover:scale-105 hover:ring-2 hover:ring-offset-2 hover:ring-gray-200"
-                  )}
-                  style={{ backgroundColor: shades[500] }}
-                />
-                <span className="text-xs text-gray-600 capitalize">
-                  {colorName}
-                </span>
-              </button>
-              
-              {selectedFamily === colorName && (
-                <div className="absolute left-3 right-3 mt-2 p-2 bg-gray-50 shadow-sm border border-gray-200 rounded-md grid grid-cols-11 gap-1">
-                  {Object.entries(shades).map(([shade, color]) => (
-                    <button
-                      key={`${colorName}-${shade}`}
-                      className={cn(
-                        "w-4 h-4 rounded-sm transition-all",
-                        selectedColor === color 
-                          ? "ring-2 ring-offset-1 ring-gray-400 scale-110" 
-                          : "hover:scale-105 hover:ring-1 hover:ring-offset-1 hover:ring-gray-200"
-                      )}
-                      style={{ backgroundColor: color }}
-                      onClick={() => onColorChange(color)}
-                      title={`${colorName}-${shade}`}
-                    />
-                  ))}
-                </div>
-              )}
-            </div>
-          ))}
+          <div className="relative bg-white/95 p-2 rounded-lg shadow-lg backdrop-blur-sm">
+            <HexColorPicker 
+              color={selectedColor}
+              onChange={onColorChange}
+            />
+          </div>
         </div>
-      </PopoverContent>
-    </Popover>
+      )}
+    </div>
   );
 } 

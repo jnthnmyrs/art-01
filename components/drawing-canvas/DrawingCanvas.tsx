@@ -12,6 +12,7 @@ import { Stage, Layer } from 'react-konva';
 import { track } from '@vercel/analytics';
 
 
+
 const MAX_CANVAS_SIZE = 1000;
 
 export function DrawingCanvas() {
@@ -47,6 +48,7 @@ export function DrawingCanvas() {
     setTool,
     setPressureMultiplier,
     pressureMultiplier,
+    onColorChange: setColor,
   });
 
   // Single effect for initialization and resize
