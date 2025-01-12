@@ -7,56 +7,63 @@ interface KeyboardShortcutProps {
   onRedo: () => void;
   setTool: (tool: 'brush' | 'eraser') => void;
   setPressureMultiplier: (value: number) => void;
+  pressureMultiplier: number;
 }
 
-export function useKeyboardShortcuts({ 
-  onUndo, 
-  onRedo, 
+const BRUSH_SIZES = [
+  { value: 5, label: "Tiny" },
+  { value: 10, label: "Small" },
+  { value: 25, label: "Medium" },
+  { value: 50, label: "Large" },
+  { value: 100, label: "Extra Large" },
+  { value: 200, label: "Huge" },
+  { value: 400, label: "Massive" },
+] as const;
+
+export function useKeyboardShortcuts({
+  onUndo,
+  onRedo,
   setTool,
-  setPressureMultiplier 
+  setPressureMultiplier,
+  pressureMultiplier,
 }: KeyboardShortcutProps) {
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
-      // Check if we're in an input field
+      // Don't trigger shortcuts if user is typing in an input
       if (e.target instanceof HTMLInputElement || e.target instanceof HTMLTextAreaElement) {
         return;
       }
 
-      // Undo: Cmd/Ctrl + Z
-      if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'z' && !e.shiftKey) {
-        e.preventDefault();
-        onUndo();
-      }
+      if (e.key === 'b') {
+        setTool('brush');
+      } else if (e.key === 'e') {
+        setTool('eraser');
+      } else if (e.key === '[' || e.key === ']') {
+        // Find current size index
+        const currentIndex = BRUSH_SIZES.findIndex(
+          size => size.value === pressureMultiplier
+        );
+        
+        if (currentIndex === -1) return;
 
-      // Redo: Cmd/Ctrl + Shift + Z
-      if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'z' && e.shiftKey) {
-        e.preventDefault();
-        onRedo();
-      }
+        // Decrease size with [, increase with ]
+        const newIndex = e.key === '[' 
+          ? Math.max(0, currentIndex - 1)
+          : Math.min(BRUSH_SIZES.length - 1, currentIndex + 1);
 
-      // Tool shortcuts (without modifiers)
-      if (!e.metaKey && !e.ctrlKey && !e.altKey && !e.shiftKey) {
-        switch (e.key.toLowerCase()) {
-          case 'b':
-            setTool('brush');
-            break;
-          case 'e':
-            setTool('eraser');
-            break;
-          case '1':
-            setPressureMultiplier(5); // Small
-            break;
-          case '2':
-            setPressureMultiplier(25); // Medium
-            break;
-          case '3':
-            setPressureMultiplier(50); // Large
-            break;
+        setPressureMultiplier(BRUSH_SIZES[newIndex].value);
+      } else if ((e.ctrlKey || e.metaKey) && e.key === 'z') {
+        if (e.shiftKey) {
+          e.preventDefault();
+          onRedo();
+        } else {
+          e.preventDefault();
+          onUndo();
         }
       }
     };
 
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [onUndo, onRedo, setTool, setPressureMultiplier]);
+  }, [onUndo, onRedo, setTool, setPressureMultiplier, pressureMultiplier]);
 } 

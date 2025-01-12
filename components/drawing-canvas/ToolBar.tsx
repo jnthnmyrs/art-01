@@ -16,7 +16,7 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { ColorPicker } from "./ColorPicker";
-// import { cn } from "@/lib/utils";
+
 import { BrushStyle } from "./types";
 import { Button } from "@/components/ui/button";
 
@@ -41,9 +41,13 @@ interface ToolBarProps {
 }
 
 const BRUSH_SIZES = [
-  { value: 5, label: "Small" },
+  { value: 5, label: "Tiny" },
+  { value: 10, label: "Small" },
   { value: 25, label: "Medium" },
   { value: 50, label: "Large" },
+  { value: 100, label: "Extra Large" },
+  { value: 200, label: "Huge" },
+  { value: 400, label: "Massive" },
 ] as const;
 
 export function ToolBar({
@@ -101,7 +105,7 @@ export function ToolBar({
 
           {/* Size Buttons */}
           <div className="flex flex-row lg:flex-col items-center gap-2 p-2 bg-white/80 backdrop-blur rounded-lg shadow-sm">
-            {BRUSH_SIZES.map(({ value, label }, index) => (
+            {BRUSH_SIZES.map(({ value, label }, ) => (
               <Tooltip key={value}>
                 <TooltipTrigger asChild>
                   <Button
@@ -113,14 +117,14 @@ export function ToolBar({
                     <div
                       className="mx-auto rounded-full bg-current"
                       style={{
-                        width: Math.max(4, value * 0.35),
-                        height: Math.max(4, value * 0.35),
+                        width: Math.max(4, value * 0.08),
+                        height: Math.max(4, value * 0.08),
                       }}
                     />
                   </Button>
                 </TooltipTrigger>
                 <TooltipContent>
-                  <p>{label} ({index + 1})</p>
+                  <p>{label}</p>
                 </TooltipContent>
               </Tooltip>
             ))}
