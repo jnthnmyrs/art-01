@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import type Konva from 'konva';
 import { Line, Point } from './types';
 import { BrushStyle } from './types';
@@ -14,6 +14,29 @@ export function useDrawingState() {
   const [brushStyle, setBrushStyle] = useState<BrushStyle>('round');
   const isDrawing = useRef(false);
   const lastPoints = useRef<Point[]>([]);
+
+  // Add global pointer up listener
+  useEffect(() => {
+    const handleGlobalPointerUp = () => {
+      if (isDrawing.current) {
+        isDrawing.current = false;
+        lastPoints.current = [];
+      }
+    };
+
+    // Listen for both mouseup and pointerup for better coverage
+    window.addEventListener('pointerup', handleGlobalPointerUp);
+    window.addEventListener('pointercancel', handleGlobalPointerUp);
+    
+    // Also handle when the window loses focus
+    window.addEventListener('blur', handleGlobalPointerUp);
+
+    return () => {
+      window.removeEventListener('pointerup', handleGlobalPointerUp);
+      window.removeEventListener('pointercancel', handleGlobalPointerUp);
+      window.removeEventListener('blur', handleGlobalPointerUp);
+    };
+  }, []);
 
   const handleUndo = () => {
     if (lines.length === 0) return;
