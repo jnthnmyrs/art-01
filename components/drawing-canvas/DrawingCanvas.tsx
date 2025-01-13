@@ -16,7 +16,7 @@ import { TIER_FEATURES } from "@/types/subscription";
 
 const MAX_CANVAS_SIZE = 1000;
 const DEFAULT_TRANSPARENT_BACKGROUND = false;
-const IMAGE_NAME = new Date().toISOString() + '-drawwwtime.png';
+
 
 
 export function DrawingCanvas() {
@@ -108,6 +108,13 @@ export function DrawingCanvas() {
     };
   }, []);
 
+  const generateImageName = () => {
+    const date = new Date().toISOString().split('T')[0]; // YYYY-MM-DD
+    // const time = new Date().toISOString().split('T')[1].split('.')[0].replace(/:/g, '-'); // HH-MM-SS
+    const random = Math.random().toString(36).substring(2, 8); // 6 random alphanumeric characters
+    return `drawwwtime-${date}-${random}.png`;
+  };
+
   const handleExport = async () => {
     if (!stageRef.current) return;
 
@@ -115,9 +122,8 @@ export function DrawingCanvas() {
     const { pixelRatio, addWatermark } = TIER_FEATURES.free;
     
     // Get stage data URL at higher resolution
-    const dataUrl = stageRef.current.toDataURL({
+    stageRef.current.toDataURL({
       pixelRatio,
-      mimeType: "image/png",
       callback: (dataUrl) => {
         if (addWatermark) {
           // Create a temporary canvas to add the watermark
@@ -151,7 +157,7 @@ export function DrawingCanvas() {
               
               // Create download link with watermarked image
               const link = document.createElement('a');
-              link.download = IMAGE_NAME;
+              link.download = generateImageName();
               link.href = tempCanvas.toDataURL();
               link.click();
             };
@@ -179,7 +185,7 @@ export function DrawingCanvas() {
             
             // Create download link
             const link = document.createElement('a');
-            link.download = IMAGE_NAME;
+            link.download = generateImageName();
             link.href = tempCanvas.toDataURL();
             link.click();
           };
