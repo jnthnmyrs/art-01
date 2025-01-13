@@ -108,7 +108,12 @@ export function DrawingCanvas() {
     if (!stageRef.current) return;
 
     const dataURL = stageRef.current.toDataURL({
-      pixelRatio: 2, // Export at 2x resolution
+      
+      // PREMIUM FEATURE
+      // If user is logged in, use 4x resolution
+      // If user is not logged in, use 2x resolution
+
+      pixelRatio: 4, // Export at 4x resolution
       mimeType: "image/png",
       ...(transparentBackground ? {} : { 
         callback: ((dataUrl: string) => {
@@ -172,7 +177,7 @@ export function DrawingCanvas() {
     // Scale cursor size with current pressure-adjusted size
     const cursorSize = Math.min(currentSize/2, 20);
     // Create SVG with both white outline and color stroke
-    return `url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 48 48" fill="none"><circle cx="24" cy="24" r="${cursorSize}" stroke="white" stroke-width="2"/><circle cx="24" cy="24" r="${cursorSize}" stroke="${encodeURIComponent(color)}" stroke-width="1"/></svg>') 24 24, auto`;
+    return `url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 48 48" fill="none"><circle cx="24" cy="24" r="${cursorSize}" stroke="black" stroke-width="4"/><circle cx="24" cy="24" r="${cursorSize}" stroke="white" stroke-width="3"/><circle cx="24" cy="24" r="${cursorSize}" stroke="${encodeURIComponent(color)}" stroke-width="2"/></svg>') 24 24, auto`;
   };
 
   return (

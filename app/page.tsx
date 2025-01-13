@@ -9,7 +9,7 @@ const DrawingCanvas = dynamic(
 
 export default function Home() {
   return (
-    <div className="flex flex-col items-center justify-center m-0 lg:p-4 py-0 bg-gray-100 h-screen">
+    <div className="flex flex-col items-center mt-24 lg:mt-0 justify-center m-0 lg:p-4 py-0 bg-gray-100 h-screen">
 
       <DrawingCanvas />
     </div>

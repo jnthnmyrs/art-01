@@ -69,7 +69,7 @@ export function ToolBar({
   return (
     <>
       {/* Main Toolbar */}
-      <div className="absolute -top-32 sm:-top-8 md:-top-16 left-4 lg:top-1/2 lg:-translate-y-1/2 lg:-left-12 z-10">
+      <div className="absolute -top-48 sm:-top-8 md:-top-16 left-4 lg:top-1/2 lg:-translate-y-1/2 lg:-left-12 z-10">
         <TooltipProvider>
           <div className="flex flex-wrap lg:flex-col gap-2">
             {/* Tools Group */}

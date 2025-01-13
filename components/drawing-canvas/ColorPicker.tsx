@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { HexColorPicker } from "react-colorful";
 import { Pipette } from 'lucide-react';
 import { Button } from "@/components/ui/button";
-import { cn } from "@/lib/utils";
+
 
 interface ColorPickerProps {
   selectedColor: string;
@@ -36,7 +36,7 @@ export function ColorPicker({ selectedColor, onColorChange }: ColorPickerProps) 
       <div className="flex lg:flex-col gap-2">
         {/* Current Color Swatch */}
         <button
-          className="w-10 h-10 rounded-lg shadow-md hover:shadow-lg transition-shadow ring-2 ring-white"
+          className="w-8 h-8 rounded-lg shadow-md hover:shadow-lg transition-shadow ring-2 ring-white"
           style={{ backgroundColor: selectedColor }}
           onClick={() => setShowPicker(!showPicker)}
           title="Open color picker"
@@ -47,7 +47,7 @@ export function ColorPicker({ selectedColor, onColorChange }: ColorPickerProps) 
           <Button
             variant="outline"
             size="icon"
-            className="w-10 h-10"
+            className="w-8 h-8"
             onClick={() => useEyeDropper(onColorChange)}
             title="Pick color from screen (I)"
           >
@@ -58,7 +58,7 @@ export function ColorPicker({ selectedColor, onColorChange }: ColorPickerProps) 
 
       {/* Color Picker Popover */}
       {showPicker && (
-        <div className="absolute left-full ml-2 z-50">
+        <div className="absolute top-14 left-0  sm:right-16  lg:top-0 lg:left-full ml-2 z-50">
           <div 
             className="fixed inset-0" 
             onClick={() => setShowPicker(false)} 
