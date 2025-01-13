@@ -10,6 +10,14 @@ interface ColorPickerProps {
   onColorChange: (color: string) => void;
 }
 
+interface EyeDropperResult {
+  sRGBHex: string;
+}
+
+interface EyeDropper {
+  open: () => Promise<EyeDropperResult>;
+}
+
 // Change to regular async function instead of a hook
 export async function activateEyeDropper(onColorChange: (color: string) => void) {
   if (!('EyeDropper' in window)) {
@@ -18,7 +26,9 @@ export async function activateEyeDropper(onColorChange: (color: string) => void)
   }
 
   try {
-    const eyeDropper = new (window as unknown as { EyeDropper: any }).EyeDropper();
+    const eyeDropper = new (window.EyeDropper as unknown as {
+      new(): EyeDropper;
+    });
     const result = await eyeDropper.open();
     onColorChange(result.sRGBHex);
   } catch (e) {
