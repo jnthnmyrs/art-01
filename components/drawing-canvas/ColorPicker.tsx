@@ -5,14 +5,13 @@ import { HexColorPicker } from "react-colorful";
 import { Pipette } from 'lucide-react';
 import { Button } from "@/components/ui/button";
 
-
 interface ColorPickerProps {
   selectedColor: string;
   onColorChange: (color: string) => void;
 }
 
-// Export this function so we can reuse it in useKeyboardShortcuts
-export async function useEyeDropper(onColorChange: (color: string) => void) {
+// Change to regular async function instead of a hook
+export async function activateEyeDropper(onColorChange: (color: string) => void) {
   if (!('EyeDropper' in window)) {
     console.warn('EyeDropper API is not supported in this browser');
     return;
@@ -48,7 +47,7 @@ export function ColorPicker({ selectedColor, onColorChange }: ColorPickerProps) 
             variant="outline"
             size="icon"
             className="w-8 h-8"
-            onClick={() => useEyeDropper(onColorChange)}
+            onClick={() => activateEyeDropper(onColorChange)}
             title="Pick color from screen (I)"
           >
             <Pipette className="h-4 w-4" />
@@ -58,7 +57,7 @@ export function ColorPicker({ selectedColor, onColorChange }: ColorPickerProps) 
 
       {/* Color Picker Popover */}
       {showPicker && (
-        <div className="absolute top-14 left-0  sm:right-16  lg:top-0 lg:left-full ml-2 z-50">
+        <div className="absolute left-full ml-2 z-50">
           <div 
             className="fixed inset-0" 
             onClick={() => setShowPicker(false)} 

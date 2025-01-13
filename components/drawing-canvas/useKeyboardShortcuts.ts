@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect } from 'react';
-import { useEyeDropper } from './ColorPicker';
+import { activateEyeDropper } from './ColorPicker';
 
 interface KeyboardShortcutProps {
   onUndo: () => void;
@@ -42,7 +42,7 @@ export function useKeyboardShortcuts({
       } else if (e.key === 'e') {
         setTool('eraser');
       } else if (e.key === 'i') {
-        useEyeDropper(onColorChange);
+        activateEyeDropper(onColorChange);
       } else if (e.key === '[' || e.key === ']') {
         // Find current size index
         const currentIndex = BRUSH_SIZES.findIndex(
