@@ -18,12 +18,12 @@ export async function activateEyeDropper(onColorChange: (color: string) => void)
   }
 
   try {
-    const eyeDropper = new (window as any).EyeDropper();
+    const eyeDropper = new (window as unknown as { EyeDropper: any }).EyeDropper();
     const result = await eyeDropper.open();
     onColorChange(result.sRGBHex);
   } catch (e) {
     // User canceled the eye dropper
-    console.log('EyeDropper cancelled');
+    console.log('EyeDropper cancelled', e);
   }
 }
 
