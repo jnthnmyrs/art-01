@@ -37,14 +37,15 @@ const smoothAngle = (points: Point[], index: number, windowSize: number = 3): nu
 export const generateStrokeOutline = (
   rawPoints: Point[], 
   pressureMultiplier: number,
-//   brushStyle: 'round' | 'flat'
 ): Point[] => {
+  // Safety check - need at least 2 points to draw a line
   if (!rawPoints?.length || rawPoints.length < 2) return [];
   
-  // Interpolate points that are too far apart
-  const maxDistance = 5;
+  // Step 1: Interpolation
+  const maxDistance = 1; // Maximum distance between points
   const interpolatedPoints: Point[] = [];
   
+  // Add points between any two points that are too far apart
   for (let i = 0; i < rawPoints.length - 1; i++) {
     const curr = rawPoints[i];
     const next = rawPoints[i + 1];
@@ -58,9 +59,10 @@ export const generateStrokeOutline = (
   }
   interpolatedPoints.push(rawPoints[rawPoints.length - 1]);
   
+  // Step 2: Generate Outline
   const outline: Point[] = [];
   
-  // Left side
+  // Left side of the stroke
   for (let i = 0; i < interpolatedPoints.length - 1; i++) {
     const curr = interpolatedPoints[i];
     const angle = smoothAngle(interpolatedPoints, i);
@@ -72,7 +74,7 @@ export const generateStrokeOutline = (
     });
   }
 
-  // Right side in reverse
+  // Right side of the stroke (in reverse)
   for (let i = interpolatedPoints.length - 1; i > 0; i--) {
     const curr = interpolatedPoints[i];
     const angle = smoothAngle(interpolatedPoints, i);

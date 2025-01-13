@@ -10,17 +10,21 @@ import type Konva from "konva";
 import StrokeLayer from "./StrokeLayer";
 import { Stage, Layer } from 'react-konva';
 import { track } from '@vercel/analytics';
+import { TIER_FEATURES } from "@/types/subscription";
 
 
 
 const MAX_CANVAS_SIZE = 1000;
+const DEFAULT_TRANSPARENT_BACKGROUND = false;
+const IMAGE_NAME = new Date().toISOString() + '-drawwwtime.png';
+
 
 export function DrawingCanvas() {
   const containerRef = useRef<HTMLDivElement>(null);
   const stageRef = useRef<Konva.Stage>(null);
   const [dimensions, setDimensions] = useState({ width: 0, height: 0 });
   const [isReady, setIsReady] = useState(false);
-  const [transparentBackground, setTransparentBackground] = useState(false);
+  const [transparentBackground, setTransparentBackground] = useState(DEFAULT_TRANSPARENT_BACKGROUND);
 
   const {
     lines,
@@ -104,57 +108,86 @@ export function DrawingCanvas() {
     };
   }, []);
 
-  const handleExport = () => {
+  const handleExport = async () => {
     if (!stageRef.current) return;
 
-    const dataURL = stageRef.current.toDataURL({
-      
-      // PREMIUM FEATURE
-      // If user is logged in, use 4x resolution
-      // If user is not logged in, use 2x resolution
-
-      pixelRatio: 4, // Export at 4x resolution
+    // Use free tier settings
+    const { pixelRatio, addWatermark } = TIER_FEATURES.free;
+    
+    // Get stage data URL at higher resolution
+    const dataUrl = stageRef.current.toDataURL({
+      pixelRatio,
       mimeType: "image/png",
-      ...(transparentBackground ? {} : { 
-        callback: ((dataUrl: string) => {
-          // Create a temporary canvas to modify the image
+      callback: (dataUrl) => {
+        if (addWatermark) {
+          // Create a temporary canvas to add the watermark
           const tempCanvas = document.createElement('canvas');
           const tempCtx = tempCanvas.getContext('2d');
           const img = new Image();
           
           img.onload = () => {
-            if (tempCtx) {
-              tempCanvas.width = img.width;
-              tempCanvas.height = img.height;
-              tempCtx.drawImage(img, 0, 0);
-              tempCtx.globalCompositeOperation = 'destination-over';
-              tempCtx.fillStyle = 'white';
-              tempCtx.fillRect(0, 0, tempCanvas.width, tempCanvas.height);
+            if (!tempCtx) return;
+            
+            // Set canvas size based on stage dimensions
+            tempCanvas.width = stageRef.current!.width() * pixelRatio;
+            tempCanvas.height = stageRef.current!.height() * pixelRatio;
+            
+            // Draw white background
+            tempCtx.fillStyle = 'white';
+            tempCtx.fillRect(0, 0, tempCanvas.width, tempCanvas.height);
+            
+            // Draw the stage image
+            tempCtx.drawImage(img, 0, 0);
+            
+            // Load and draw watermark
+            const watermark = new Image();
+            watermark.onload = () => {
+              // Center watermark horizontally, keep at bottom
+              const padding = 20 * pixelRatio;
+              const x = (tempCanvas.width - watermark.width) / 2; // Center horizontally
+              const y = tempCanvas.height - watermark.height - padding; // Keep same vertical position
               
-              // Create download link
-              const link = document.createElement("a");
-              link.download = `drawing-${new Date().toISOString()}.png`;
-              link.href = tempCanvas.toDataURL('image/png');
-              document.body.appendChild(link);
+              tempCtx.drawImage(watermark, x, y);
+              
+              // Create download link with watermarked image
+              const link = document.createElement('a');
+              link.download = IMAGE_NAME;
+              link.href = tempCanvas.toDataURL();
               link.click();
-              document.body.removeChild(link);
-            }
+            };
+            watermark.src = '/watermark-drawwwtime.png';
           };
-          
           img.src = dataUrl;
-        })
-      })
+        } else {
+          // For pro tier: add white background without watermark
+          const tempCanvas = document.createElement('canvas');
+          const tempCtx = tempCanvas.getContext('2d');
+          const img = new Image();
+          
+          img.onload = () => {
+            if (!tempCtx) return;
+            
+            tempCanvas.width = stageRef.current!.width() * pixelRatio;
+            tempCanvas.height = stageRef.current!.height() * pixelRatio;
+            
+            // Draw white background
+            tempCtx.fillStyle = 'white';
+            tempCtx.fillRect(0, 0, tempCanvas.width, tempCanvas.height);
+            
+            // Draw the stage image
+            tempCtx.drawImage(img, 0, 0);
+            
+            // Create download link
+            const link = document.createElement('a');
+            link.download = IMAGE_NAME;
+            link.href = tempCanvas.toDataURL();
+            link.click();
+          };
+          img.src = dataUrl;
+        }
+      }
     });
-
-    if (transparentBackground) {
-      // If transparent, download directly
-      const link = document.createElement("a");
-      link.download = `drawing-${new Date().toISOString()}.png`;
-      link.href = dataURL;
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-    }
+    
     track('Downloaded drawing');
   };
 
