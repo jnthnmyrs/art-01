@@ -5,8 +5,9 @@ import {
   Eraser,
   Undo2,
   Redo2,
-  Download,
+  Save,
   Trash2,
+
 
 } from "lucide-react";
 import {
@@ -174,11 +175,11 @@ export function ToolBar({
               <Tooltip>
                 <TooltipTrigger asChild>
                   <Button size="icon" variant="ghost" onClick={onExport}>
-                    <Download className="h-4 w-4" />
+                    <Save className="h-4 w-4" />
                   </Button>
                 </TooltipTrigger>
                 <TooltipContent>
-                  <p>Export</p>
+                  <p>Save Drawwwing</p>
                 </TooltipContent>
               </Tooltip>
             </div>
@@ -238,11 +239,11 @@ export function ToolBar({
         <Tooltip>
           <TooltipTrigger asChild>
             <Button size="icon" variant="ghost" onClick={onExport}>
-              <Download className="h-4 w-4" />
+              <Save className="h-4 w-4" />
             </Button>
           </TooltipTrigger>
           <TooltipContent>
-            <p>Export</p>
+            <p>Save Drawwwing</p>
           </TooltipContent>
         </Tooltip>
 
