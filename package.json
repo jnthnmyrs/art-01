@@ -11,6 +11,7 @@
   "dependencies": {
     "@radix-ui/react-dialog": "^1.1.4",
     "@radix-ui/react-popover": "^1.1.4",
+    "@radix-ui/react-separator": "^1.1.1",
     "@radix-ui/react-slider": "^1.2.2",
     "@radix-ui/react-slot": "^1.1.1",
     "@radix-ui/react-toast": "^1.2.4",
@@ -23,12 +24,14 @@
     "konva": "^9.3.16",
     "lucide-react": "^0.469.0",
     "next": "15.1.2",
+    "next-themes": "^0.4.4",
     "paper": "^0.12.17",
     "react": "^19.0.0",
     "react-color": "^2.19.3",
     "react-colorful": "^5.6.1",
     "react-dom": "^19.0.0",
     "react-konva": "^19.0.1",
+    "sonner": "^1.7.2",
     "tailwind-merge": "^2.5.5",
     "tailwindcss-animate": "^1.0.7"
   },

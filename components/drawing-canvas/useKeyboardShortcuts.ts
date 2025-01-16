@@ -10,6 +10,7 @@ interface KeyboardShortcutProps {
   setPressureMultiplier: (value: number) => void;
   pressureMultiplier: number;
   onColorChange: (color: string) => void;
+  onExport: () => void;
 }
 
 const BRUSH_SIZES = [
@@ -29,6 +30,7 @@ export function useKeyboardShortcuts({
   setPressureMultiplier,
   pressureMultiplier,
   onColorChange,
+  onExport,
 }: KeyboardShortcutProps) {
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -65,10 +67,13 @@ export function useKeyboardShortcuts({
           e.preventDefault();
           onUndo();
         }
+      } else if ((e.ctrlKey || e.metaKey) && e.shiftKey && e.key.toLowerCase() === 's') {
+        e.preventDefault();
+        onExport();
       }
     };
 
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [onUndo, onRedo, setTool, setPressureMultiplier, pressureMultiplier, onColorChange]);
+  }, [onUndo, onRedo, setTool, setPressureMultiplier, pressureMultiplier, onColorChange, onExport]);
 } 

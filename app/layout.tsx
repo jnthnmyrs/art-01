@@ -4,6 +4,7 @@ import "./globals.css";
 import { Toaster } from "@/components/ui/toaster";
 import { AboutDialog } from "@/components/AboutDialog";
 import { Analytics } from "@vercel/analytics/react";
+import Image from "next/image";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -66,6 +67,9 @@ export default function RootLayout({
       >
         {children}
         <Toaster />
+          <div className="fixed flex justify-center bottom-0 w-full pb-2 ">
+            <Image src="/watermark-drawwwtime.png" alt="DRAWWW TIME" className="opacity-50 w-fit h-fit" width={100} height={100} />
+          </div>
         <div className="whitespace-nowrap fixed bottom-0 right-0 w-fit">
           <AboutDialog />
           <Analytics />

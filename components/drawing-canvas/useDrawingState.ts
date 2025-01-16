@@ -4,6 +4,9 @@ import { useState, useRef, useEffect } from 'react';
 import type Konva from 'konva';
 import { Line, Point } from './types';
 import { BrushStyle } from './types';
+import { useToast } from "@/hooks/use-toast";
+
+
 
 export function useDrawingState() {
   const [lines, setLines] = useState<Line[]>([]);
@@ -14,6 +17,8 @@ export function useDrawingState() {
   const [brushStyle, setBrushStyle] = useState<BrushStyle>('round');
   const isDrawing = useRef(false);
   const lastPoints = useRef<Point[]>([]);
+  const undoStack = useRef<Line[][]>([]);
+  const { toast } = useToast();
 
   // Add global pointer up listener
   useEffect(() => {
@@ -39,12 +44,25 @@ export function useDrawingState() {
   }, []);
 
   const handleUndo = () => {
-    if (lines.length === 0) return;
+    console.log('Undo: Current lines length:', lines.length);
+    console.log('Undo: undoStack length:', undoStack.current.length);
     
-    const newLines = [...lines];
-    const removedLine = newLines.pop()!;
-    setLines(newLines);
-    setRedoStack([...redoStack, [removedLine]]);
+    if (lines.length === 0 && undoStack.current.length > 0) {
+      // Restore the last cleared state
+      console.log('Undo: Restoring from undoStack');
+      const lastState = undoStack.current.pop();
+      console.log('Undo: Last state:', lastState);
+      if (lastState) {
+        setLines(lastState);
+      }
+    } else if (lines.length > 0) {
+      // Normal undo of last line
+      console.log('Undo: Normal undo of last line');
+      const newLines = [...lines];
+      const removedLine = newLines.pop()!;
+      setLines(newLines);
+      setRedoStack([...redoStack, [removedLine]]);
+    }
   };
 
   const handleRedo = () => {
@@ -106,8 +124,18 @@ export function useDrawingState() {
   };
 
   const handleClear = () => {
-    setLines([]);
-    setRedoStack([]);
+    if (lines.length > 0) {
+      undoStack.current.push([...lines]);
+      setRedoStack([]);
+      setLines([]);
+      
+      toast({
+        title: "Canvas cleared",
+        description: "You can still undo this action.",
+        variant: "destructive",
+        duration: 2000,
+      });
+    }
   };
 
   return {
@@ -124,7 +152,7 @@ export function useDrawingState() {
     handleClear,
     handleUndo,
     handleRedo,
-    canUndo: lines.length > 0,
+    canUndo: lines.length > 0 || undoStack.current.length > 0,
     canRedo: redoStack.length > 0,
     brushStyle,
     setBrushStyle,

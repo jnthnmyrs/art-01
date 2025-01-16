@@ -47,6 +47,11 @@ export function AboutDialog() {
                 <li><kbd className="px-1 rounded bg-gray-100">E</kbd> - Eraser</li>
                 <li><kbd className="px-1 rounded bg-gray-100">Ctrl/⌘</kbd> + <kbd className="px-1 rounded bg-gray-100">Z</kbd> - Undo</li>
                 <li><kbd className="px-1 rounded bg-gray-100">Ctrl/⌘</kbd> + <kbd className="px-1 rounded bg-gray-100">Shift</kbd> + <kbd className="px-1 rounded bg-gray-100">Z</kbd> - Redo</li>
+                <li>
+                  <kbd className="px-1 rounded bg-gray-100">Ctrl/⌘</kbd> + 
+                  <kbd className="px-1 rounded bg-gray-100">Shift</kbd> + 
+                  <kbd className="px-1 rounded bg-gray-100">S</kbd> - Save Drawing
+                </li>
               </ul>
             </div>
           </div>

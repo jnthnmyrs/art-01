@@ -1,15 +1,6 @@
 "use client";
 
-import {
-  Brush,
-  Eraser,
-  Undo2,
-  Redo2,
-  Save,
-  Trash2,
-
-
-} from "lucide-react";
+import { Brush, Eraser, Undo2, Redo2, Trash2, Download } from "lucide-react";
 import {
   Tooltip,
   TooltipContent,
@@ -17,7 +8,6 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { ColorPicker } from "./ColorPicker";
-
 import { BrushStyle } from "./types";
 import { Button } from "@/components/ui/button";
 
@@ -39,6 +29,7 @@ interface ToolBarProps {
   canRedo: boolean;
   brushStyle: BrushStyle;
   onBrushStyleChange: (style: BrushStyle) => void;
+  isMain: boolean;
 }
 
 const BRUSH_SIZES = [
@@ -66,199 +57,162 @@ export function ToolBar({
   onRedo,
   canUndo,
   canRedo,
+  isMain,
 }: ToolBarProps) {
   return (
     <>
-      {/* Main Toolbar */}
-      <div className="absolute -top-48 sm:-top-8 md:-top-16 left-4 lg:top-1/2 lg:-translate-y-1/2 lg:-left-12 z-10">
-        <TooltipProvider>
-          <div className="flex flex-wrap lg:flex-col gap-2">
+      {isMain ? (
+        <>
+          <div className="flex flex-wrap lg:flex-col gap-4 p-2">
             {/* Tools Group */}
-            <div className="flex flex-row lg:flex-col items-center gap-2 p-2 bg-white/80 backdrop-blur rounded-lg shadow-sm">
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <Button
-                    size="icon"
-                    variant={tool === "brush" ? "default" : "ghost"}
-                    onClick={() => onToolChange("brush")}
-                  >
-                    <Brush className="h-4 w-4" />
-                  </Button>
-                </TooltipTrigger>
-                <TooltipContent>
-                  <p>Brush (B)</p>
-                </TooltipContent>
-              </Tooltip>
 
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <Button
-                    size="icon"
-                    variant={tool === "eraser" ? "default" : "ghost"}
-                    onClick={() => onToolChange("eraser")}
-                  >
-                    <Eraser className="h-4 w-4" />
-                  </Button>
-                </TooltipTrigger>
-                <TooltipContent>
-                  <p>Eraser (E)</p>
-                </TooltipContent>
-              </Tooltip>
-            </div>
-
-            {/* Size Buttons */}
-            <div className="flex flex-row lg:flex-col items-center gap-2 p-2 bg-white/80 backdrop-blur rounded-lg shadow-sm">
-              {BRUSH_SIZES.map(({ value, label, iconSize }) => (
-                <Tooltip key={value}>
+            <div className=" flex flex-row lg:flex-col w-fit items-center gap-2 p-2 bg-white/80 backdrop-blur rounded-lg shadow-sm">
+              <TooltipProvider>
+                <Tooltip>
                   <TooltipTrigger asChild>
                     <Button
                       size="icon"
-                      variant={pressureMultiplier === value ? 'default' : 'ghost'}
-                      onClick={() => onPressureMultiplierChange(value)}
-                      className="w-8 h-8"
+                      variant={tool === "brush" ? "default" : "ghost"}
+                      onClick={() => onToolChange("brush")}
                     >
-                      <div
-                        className="mx-auto rounded-full bg-current"
-                        style={{
-                          width: iconSize,
-                          height: iconSize,
-                        }}
-                      />
+                      <Brush className="h-4 w-4" />
                     </Button>
                   </TooltipTrigger>
                   <TooltipContent>
-                    <p>{label}</p>
+                    <p>Brush (B)</p>
                   </TooltipContent>
                 </Tooltip>
-              ))}
+
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <Button
+                      size="icon"
+                      variant={tool === "eraser" ? "default" : "ghost"}
+                      onClick={() => onToolChange("eraser")}
+                    >
+                      <Eraser className="h-4 w-4" />
+                    </Button>
+                  </TooltipTrigger>
+                  <TooltipContent>
+                    <p>Eraser (E)</p>
+                  </TooltipContent>
+                </Tooltip>
+              </TooltipProvider>
             </div>
 
-            {/* Show ColorPicker only on mobile */}
-            <div className="flex lg:hidden flex-row items-center gap-2 p-2 bg-white/80 backdrop-blur rounded-lg shadow-sm">
-              <ColorPicker selectedColor={color} onColorChange={onColorChange} />
+            {/* Size Buttons */}
+            <div className=" flex flex-row lg:flex-col w-fit items-center gap-2 p-2 bg-white/80 backdrop-blur rounded-lg shadow-sm">
+              <TooltipProvider>
+                {BRUSH_SIZES.map(({ value, label, iconSize }) => (
+                  <Tooltip key={value}>
+                    <TooltipTrigger asChild>
+                      <Button
+                        size="icon"
+                        variant={
+                          pressureMultiplier === value ? "default" : "ghost"
+                        }
+                        onClick={() => onPressureMultiplierChange(value)}
+                        className="w-8 h-8"
+                      >
+                        <div
+                          className="mx-auto rounded-full bg-current"
+                          style={{
+                            width: iconSize,
+                            height: iconSize,
+                          }}
+                        />
+                      </Button>
+                    </TooltipTrigger>
+                    <TooltipContent>
+                      <p>{label}</p>
+                    </TooltipContent>
+                  </Tooltip>
+                ))}
+              </TooltipProvider>
+            </div>
+          </div>
+        </>
+      ) : (
+        <>
+          <div className="flex lg:flex-col gap-4 p-2">
+            {/* Desktop Color Picker */}
+            <div className="w-fit z-10">
+              <div className="p-2 bg-white/80 backdrop-blur rounded-lg shadow-sm">
+                <ColorPicker
+                  selectedColor={color}
+                  onColorChange={onColorChange}
+                />
+              </div>
             </div>
 
             {/* Actions Group */}
-            <div className="flex flex-row lg:flex-col items-center gap-2 p-2 bg-white/80 backdrop-blur rounded-lg shadow-sm">
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <Button
-                    size="icon"
-                    variant="ghost"
-                    onClick={onUndo}
-                    disabled={!canUndo}
-                  >
-                    <Undo2 className="h-4 w-4" />
-                  </Button>
-                </TooltipTrigger>
-                <TooltipContent>
-                  <p>Undo (Ctrl/⌘ + Z)</p>
-                </TooltipContent>
-              </Tooltip>
+            <div className="flex flex-row lg:flex-col lg:justify-between w-fit items-center gap-2 p-2 bg-white/80 backdrop-blur rounded-lg shadow-sm">
+              <TooltipProvider>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <Button
+                      size="icon"
+                      variant="ghost"
+                      onClick={onUndo}
+                      disabled={!canUndo}
+                    >
+                      <Undo2 className="h-4 w-4" />
+                    </Button>
+                  </TooltipTrigger>
+                  <TooltipContent>
+                    <p>Undo (Ctrl/⌘ + Z)</p>
+                  </TooltipContent>
+                </Tooltip>
 
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <Button
-                    size="icon"
-                    variant="ghost"
-                    onClick={onRedo}
-                    disabled={!canRedo}
-                  >
-                    <Redo2 className="h-4 w-4" />
-                  </Button>
-                </TooltipTrigger>
-                <TooltipContent>
-                  <p>Redo (Ctrl/⌘ + Shift + Z)</p>
-                </TooltipContent>
-              </Tooltip>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <Button
+                      size="icon"
+                      variant="ghost"
+                      onClick={onRedo}
+                      disabled={!canRedo}
+                    >
+                      <Redo2 className="h-4 w-4" />
+                    </Button>
+                  </TooltipTrigger>
+                  <TooltipContent>
+                    <p>Redo (Ctrl/⌘ + Shift + Z)</p>
+                  </TooltipContent>
+                </Tooltip>
 
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <Button size="icon" variant="ghost" onClick={onExport}>
-                    <Save className="h-4 w-4" />
-                  </Button>
-                </TooltipTrigger>
-                <TooltipContent>
-                  <p>Save Drawwwing</p>
-                </TooltipContent>
-              </Tooltip>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <Button size="icon" variant="outline" onClick={onExport}>
+                      <Download className="h-4 w-4" />
+                    </Button>
+                  </TooltipTrigger>
+                  <TooltipContent>
+                    <p>Save Drawing (Ctrl/⌘ + Shift + S)</p>
+                  </TooltipContent>
+                </Tooltip>
+              </TooltipProvider>
             </div>
+
+
 
             {/* Clear Button */}
-            <div className="flex flex-row lg:flex-col items-center gap-2 p-2 bg-white/80 backdrop-blur rounded-lg shadow-sm">
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <Button size="icon" variant="ghost" onClick={onClear}>
-                    <Trash2 className="h-4 w-4" />
-                  </Button>
-                </TooltipTrigger>
-                <TooltipContent>
-                  <p>Clear Canvas</p>
-                </TooltipContent>
-              </Tooltip>
+            <div className="flex flex-row lg:flex-col w-fit items-center gap-2 p-2 bg-white/80 backdrop-blur rounded-lg shadow-sm">
+              <TooltipProvider>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <Button size="icon" variant="destructive" onClick={onClear}>
+                      <Trash2 className="h-4 w-4" />
+                    </Button>
+                  </TooltipTrigger>
+                  <TooltipContent>
+                    <p>Clear Canvas</p>
+                  </TooltipContent>
+                </Tooltip>
+              </TooltipProvider>
             </div>
           </div>
-        </TooltipProvider>
-      </div>
-
-      {/* Desktop Color Picker */}
-      <div className="hidden lg:block absolute top-4 -right-10 z-10">
-        <div className="p-2 bg-white/80 backdrop-blur rounded-lg shadow-sm">
-          <ColorPicker 
-            selectedColor={color} 
-            onColorChange={onColorChange}
-          />
-        </div>
-      </div>
-
-      {/* Mobile actions and clear button */}
-      <div className="flex flex-row absolute bottom-4 bg-red-500 lg:hidden items-center gap-2 p-2  backdrop-blur rounded-lg shadow-sm">
-        <TooltipProvider>
-        <Tooltip>
-          <TooltipTrigger asChild>
-            <Button size="icon" variant="ghost" onClick={onUndo}>
-              <Undo2 className="h-4 w-4" />
-            </Button>
-          </TooltipTrigger>
-          <TooltipContent>
-            <p>Undo (Ctrl/⌘ + Z)</p>
-          </TooltipContent>
-        </Tooltip>
-
-        <Tooltip>
-          <TooltipTrigger asChild>
-            <Button size="icon" variant="ghost" onClick={onRedo}>
-              <Redo2 className="h-4 w-4" />
-            </Button>
-          </TooltipTrigger>
-          <TooltipContent>
-            <p>Redo (Ctrl/⌘ + Shift + Z)</p>
-          </TooltipContent>
-        </Tooltip>
-
-        <Tooltip>
-          <TooltipTrigger asChild>
-            <Button size="icon" variant="ghost" onClick={onExport}>
-              <Save className="h-4 w-4" />
-            </Button>
-          </TooltipTrigger>
-          <TooltipContent>
-            <p>Save Drawwwing</p>
-          </TooltipContent>
-        </Tooltip>
-
-        <Tooltip>
-          <TooltipTrigger asChild>
-            <Button size="icon" variant="ghost" onClick={onClear}>
-              <Trash2 className="h-4 w-4" />
-            </Button>
-          </TooltipTrigger>
-          <TooltipContent>
-            <p>Clear Canvas</p>
-          </TooltipContent>
-        </Tooltip>
-        </TooltipProvider>
-      </div>
+        </>
+      )}
     </>
   );
 }
