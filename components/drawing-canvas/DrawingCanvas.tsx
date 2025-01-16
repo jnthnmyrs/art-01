@@ -61,7 +61,7 @@ export function DrawingCanvas() {
     }
 
     // Use free tier settings
-    const { pixelRatio, addWatermark } = TIER_FEATURES.pro;
+    const { pixelRatio, addWatermark } = TIER_FEATURES.free;
 
     // Get stage data URL at higher resolution
     stageRef.current.toDataURL({
