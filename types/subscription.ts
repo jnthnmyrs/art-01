@@ -8,12 +8,12 @@ export interface ExportOptions {
 
 export const TIER_FEATURES: Record<SubscriptionTier, ExportOptions> = {
   free: {
-    pixelRatio: 1,
+    pixelRatio: 2,
     addWatermark: true,
     maxDimension: 2048,
   },
   pro: {
-    pixelRatio: 4,
+    pixelRatio: 10,
     addWatermark: false,
     maxDimension: undefined,
   }

@@ -12,8 +12,9 @@ import { track } from "@vercel/analytics";
 import { TIER_FEATURES } from "@/types/subscription";
 import { useToast } from "@/hooks/use-toast";
 
-const MAX_CANVAS_SIZE = 1000;
+const MAX_CANVAS_SIZE = 3000;
 const DEFAULT_TRANSPARENT_BACKGROUND = false;
+const ACCOUNT_LEVEL = TIER_FEATURES.free;
 
 export function DrawingCanvas() {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -61,7 +62,7 @@ export function DrawingCanvas() {
     }
 
     // Use free tier settings
-    const { pixelRatio, addWatermark } = TIER_FEATURES.free;
+    const { pixelRatio, addWatermark } = ACCOUNT_LEVEL;
 
     // Get stage data URL at higher resolution
     stageRef.current.toDataURL({
@@ -249,7 +250,7 @@ export function DrawingCanvas() {
   }, []);
 
   return (
-    <div className="relative flex flex-col  lg:flex-row  h-full max-w-full w-full  items-center mx-auto px-4 py-0 m-0  ">
+    <div className="relative flex flex-col  justify-center lg:flex-row   max-w-full w-full  items-center mx-auto px-4 py-0 m-0  ">
       <div className=" md:bottom-0 md:left-0 lg:top-0 lg:left-0 ">
         <ToolBar
           tool={tool}
@@ -274,7 +275,7 @@ export function DrawingCanvas() {
 
       <div
         ref={containerRef}
-        className="relative border max-w-[750px] max-h-[750px] mx-auto border-gray-200 rounded-lg bg-white touch-none"
+        className="relative border aspect-square max-w-[750px] max-h-[750px] mx-auto border-gray-200 rounded-lg bg-white touch-none"
         style={{
           width: "100%",
           aspectRatio: "1/1",
