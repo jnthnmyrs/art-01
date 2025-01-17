@@ -14,7 +14,7 @@ import { useToast } from "@/hooks/use-toast";
 
 const MAX_CANVAS_SIZE = 3000;
 const DEFAULT_TRANSPARENT_BACKGROUND = false;
-const ACCOUNT_LEVEL = TIER_FEATURES.free;
+const ACCOUNT_LEVEL = TIER_FEATURES.pro;
 
 export function DrawingCanvas() {
   const containerRef = useRef<HTMLDivElement>(null);
