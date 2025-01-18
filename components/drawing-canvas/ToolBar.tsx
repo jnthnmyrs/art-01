@@ -1,6 +1,6 @@
 "use client";
 
-import { Brush, Eraser, Undo2, Redo2, Trash2, Download } from "lucide-react";
+import { Brush, Eraser, Undo2, Redo2, Trash2, Download,  FileImage, Tangent,  } from "lucide-react";
 import {
   Tooltip,
   TooltipContent,
@@ -10,6 +10,12 @@ import {
 import { ColorPicker } from "./ColorPicker";
 import { BrushStyle } from "./types";
 import { Button } from "@/components/ui/button";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 
 interface ToolBarProps {
@@ -30,6 +36,8 @@ interface ToolBarProps {
   brushStyle: BrushStyle;
   onBrushStyleChange: (style: BrushStyle) => void;
   isMain: boolean;
+  exportFormat: 'png' | 'svg';
+  onExportFormatChange: (format: 'png' | 'svg') => void;
 }
 
 const BRUSH_SIZES = [
@@ -58,6 +66,8 @@ export function ToolBar({
   canUndo,
   canRedo,
   isMain,
+  exportFormat,
+  onExportFormatChange,
 }: ToolBarProps) {
   return (
     <>
@@ -180,16 +190,51 @@ export function ToolBar({
                   </TooltipContent>
                 </Tooltip>
 
-                <Tooltip>
-                  <TooltipTrigger asChild>
-                    <Button size="icon" variant="outline" onClick={onExport}>
-                      <Download className="h-4 w-4" />
-                    </Button>
-                  </TooltipTrigger>
-                  <TooltipContent>
-                    <p>Save Drawing (Ctrl/⌘ + Shift + S)</p>
-                  </TooltipContent>
-                </Tooltip>
+
+                  <TooltipProvider>
+                    {/* Format Selection Dropdown */}
+                    <Tooltip>
+                      <TooltipTrigger asChild>
+                        <DropdownMenu>
+                          <DropdownMenuTrigger asChild>
+                            <Button size="icon" variant="outline">
+                              {exportFormat === 'png' ? (
+                                <span className="text-xs">PNG</span>
+                              ) : (
+                                <span className="text-xs">SVG</span>
+                              )}
+                            </Button>
+                          </DropdownMenuTrigger>
+                          <DropdownMenuContent>
+                            <DropdownMenuItem onClick={() => onExportFormatChange('png')}>
+                              <FileImage className="mr-2 h-4 w-4" />
+                              <span className="text-xs">PNG {exportFormat === 'png' && '✓'}</span>
+                            </DropdownMenuItem>
+                            <DropdownMenuItem onClick={() => onExportFormatChange('svg')}>
+                              <Tangent className="mr-2 h-4 w-4" />
+                              <span className="text-xs">SVG {exportFormat === 'svg' && '✓'}</span>
+                            </DropdownMenuItem>
+                          </DropdownMenuContent>
+                        </DropdownMenu>
+                      </TooltipTrigger>
+                      <TooltipContent>
+                        <p>Export Format</p>
+                      </TooltipContent>
+                    </Tooltip>
+
+                    {/* Download Button */}
+                    <Tooltip>
+                      <TooltipTrigger asChild>
+                        <Button size="icon" variant="outline" onClick={onExport}>
+                          <Download className="h-4 w-4" />
+                        </Button>
+                      </TooltipTrigger>
+                      <TooltipContent>
+                        <p>Save Drawing (Ctrl/⌘ + Shift + S)</p>
+                      </TooltipContent>
+                    </Tooltip>
+                  </TooltipProvider>
+                
               </TooltipProvider>
             </div>
 

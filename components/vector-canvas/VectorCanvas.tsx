@@ -46,7 +46,7 @@ export function VectorCanvas({ width = 750, height = 750 }: VectorCanvasProps) {
   const isDrawing = useRef(false);
   const lastPoint = useRef<VectorPoint | null>(null);
   const rafRef = useRef<number | null>(null);
-  const [smoothingOptions, setSmoothingOptions] = useState<
+  const [smoothingOptions] = useState<
     Partial<SmoothingOptions>
   >({
     smoothing: 1,
@@ -55,7 +55,7 @@ export function VectorCanvas({ width = 750, height = 750 }: VectorCanvasProps) {
     pressureWeight: 1,
   });
   const [currentTool, setCurrentTool] = useState<Tool>('brush');
-  const [eraserStrokes, setEraserStrokes] = useState<VectorStroke[]>([]);
+  const [eraserStrokes, ] = useState<VectorStroke[]>([]);
 
   // Throttle point collection for performance
   const addPoint = useCallback((point: VectorPoint) => {

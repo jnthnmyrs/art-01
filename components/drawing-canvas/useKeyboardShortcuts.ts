@@ -11,6 +11,8 @@ interface KeyboardShortcutProps {
   pressureMultiplier: number;
   onColorChange: (color: string) => void;
   onExport: () => void;
+  exportFormat: 'png' | 'svg';
+  onExportFormatChange: (format: 'png' | 'svg') => void;
 }
 
 const BRUSH_SIZES = [
@@ -31,6 +33,8 @@ export function useKeyboardShortcuts({
   pressureMultiplier,
   onColorChange,
   onExport,
+  exportFormat,
+  onExportFormatChange,
 }: KeyboardShortcutProps) {
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -67,13 +71,15 @@ export function useKeyboardShortcuts({
           e.preventDefault();
           onUndo();
         }
-      } else if ((e.ctrlKey || e.metaKey) && e.shiftKey && e.key.toLowerCase() === 's') {
+      } else if ((e.metaKey || e.ctrlKey) && e.shiftKey && e.key.toLowerCase() === 's') {
         e.preventDefault();
         onExport();
+      } else if (e.key.toLowerCase() === 'e' && !e.metaKey && !e.ctrlKey) {
+        setTool('eraser');
       }
     };
 
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [onUndo, onRedo, setTool, setPressureMultiplier, pressureMultiplier, onColorChange, onExport]);
+  }, [onUndo, onRedo, setTool, setPressureMultiplier, pressureMultiplier, onColorChange, onExport, exportFormat, onExportFormatChange]);
 } 

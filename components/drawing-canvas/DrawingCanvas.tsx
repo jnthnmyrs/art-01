@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useEffect, useState } from "react";
+import { useRef, useEffect, useState, useCallback } from "react";
 import { ToolBar } from "./ToolBar";
 import { useDrawingState } from "./useDrawingState";
 import { useKeyboardShortcuts } from "./useKeyboardShortcuts";
@@ -8,9 +8,10 @@ import { Skeleton } from "@/components/ui/skeleton";
 import type Konva from "konva";
 import StrokeLayer from "./StrokeLayer";
 import { Stage, Layer } from "react-konva";
-import { track } from "@vercel/analytics";
+
 import { TIER_FEATURES } from "@/types/subscription";
 import { useToast } from "@/hooks/use-toast";
+import { handleExportPNG, handleExportSVG } from './exportHandlers';
 
 const MAX_CANVAS_SIZE = 3000;
 const DEFAULT_TRANSPARENT_BACKGROUND = false;
@@ -24,6 +25,7 @@ export function DrawingCanvas() {
   const [transparentBackground, setTransparentBackground] = useState(
     DEFAULT_TRANSPARENT_BACKGROUND
   );
+  const [exportFormat, setExportFormat] = useState<'png' | 'svg'>('png');
 
   const {
     lines,
@@ -47,121 +49,25 @@ export function DrawingCanvas() {
 
   const { toast } = useToast();
 
-  const generateImageName = () => {
-    const date = new Date().toISOString().split("T")[0]; // YYYY-MM-DD
-    // const time = new Date().toISOString().split('T')[1].split('.')[0].replace(/:/g, '-'); // HH-MM-SS
-    const random = Math.random().toString(36).substring(2, 8); // 6 random alphanumeric characters
-    return `drawwwtime-${date}-${random}.png`;
-  };
-
-  const handleExport = async () => {
-    console.log("Export started"); // Debug log
-    if (!stageRef.current) {
-      console.log("No stage ref found"); // Debug log
-      return;
+  const handleFormatExport = useCallback(() => {
+    if (exportFormat === 'png') {
+      handleExportPNG(stageRef, toast); 
+    } else {
+      handleExportSVG(stageRef, toast);
     }
+  }, [exportFormat, stageRef, toast]);
 
-    // Use free tier settings
-    const { pixelRatio, addWatermark } = ACCOUNT_LEVEL;
-
-    // Get stage data URL at higher resolution
-    stageRef.current.toDataURL({
-      pixelRatio,
-      callback: (dataUrl) => {
-        console.log("Got data URL"); // Debug log
-        if (addWatermark) {
-          // Create a temporary canvas to add the watermark
-          const tempCanvas = document.createElement("canvas");
-          const tempCtx = tempCanvas.getContext("2d");
-          const img = new Image();
-
-          img.onload = () => {
-            if (!tempCtx) return;
-
-            // Set canvas size based on stage dimensions
-            tempCanvas.width = stageRef.current!.width() * pixelRatio;
-            tempCanvas.height = stageRef.current!.height() * pixelRatio;
-
-            // Draw white background
-            tempCtx.fillStyle = "white";
-            tempCtx.fillRect(0, 0, tempCanvas.width, tempCanvas.height);
-
-            // Draw the stage image
-            tempCtx.drawImage(img, 0, 0);
-
-            // Load and draw watermark
-            const watermark = new Image();
-            watermark.onload = () => {
-              // Center watermark horizontally, keep at bottom
-              const padding = 20 * pixelRatio;
-              const x = (tempCanvas.width - watermark.width) / 2; // Center horizontally
-              const y = tempCanvas.height - watermark.height - padding; // Keep same vertical position
-
-              tempCtx.drawImage(watermark, x, y);
-
-              // Create download link with watermarked image
-              const link = document.createElement("a");
-              link.download = generateImageName();
-              link.href = tempCanvas.toDataURL();
-              link.click();
-            };
-            watermark.src = "/watermark-drawwwtime.png";
-          };
-          img.src = dataUrl;
-        } else {
-          // For pro tier: add white background without watermark
-          const tempCanvas = document.createElement("canvas");
-          const tempCtx = tempCanvas.getContext("2d");
-          const img = new Image();
-
-          img.onload = () => {
-            console.log("Image loaded"); // Debug log
-            if (!tempCtx) {
-              console.log("No context found"); // Debug log
-              return;
-            }
-
-            tempCanvas.width = stageRef.current!.width() * pixelRatio;
-            tempCanvas.height = stageRef.current!.height() * pixelRatio;
-
-            // Draw white background
-            tempCtx.fillStyle = "white";
-            tempCtx.fillRect(0, 0, tempCanvas.width, tempCanvas.height);
-
-            // Draw the stage image
-            tempCtx.drawImage(img, 0, 0);
-
-            // Create download link
-            const link = document.createElement("a");
-            link.download = generateImageName();
-            link.href = tempCanvas.toDataURL();
-            link.click();
-            console.log("Download triggered"); // Debug log
-          };
-          img.src = dataUrl;
-        }
-      },
-    });
-
-    track("Downloaded drawing");
-    console.log("Downloaded drawing");
-    // Show success toast
-    toast({
-      title: "Drawing saved! 🎨",
-      description: "Your masterpiece has been downloaded to your computer.",
-      duration: 3000,
-    });
-  };
-
-  // Move this after handleExport is defined
+  // Use the format-aware handler in keyboard shortcuts
   useKeyboardShortcuts({
     onUndo: handleUndo,
     onRedo: handleRedo,
-    setTool,
-    setPressureMultiplier,
-    pressureMultiplier,
+    setTool: setTool,
+    setPressureMultiplier: setPressureMultiplier,
+    pressureMultiplier: pressureMultiplier,
     onColorChange: setColor,
-    onExport: handleExport,
+    onExport: handleFormatExport, // Use the new handler here
+    exportFormat,
+    onExportFormatChange: setExportFormat,
   });
 
   // Track the current pressure-adjusted size
@@ -262,7 +168,7 @@ export function DrawingCanvas() {
           onPressureMultiplierChange={setPressureMultiplier}
           onTransparentBackgroundChange={setTransparentBackground}
           onClear={handleClear}
-          onExport={handleExport}
+          onExport={handleFormatExport}
           onUndo={handleUndo}
           onRedo={handleRedo}
           canUndo={canUndo}
@@ -270,6 +176,8 @@ export function DrawingCanvas() {
           brushStyle={brushStyle}
           onBrushStyleChange={setBrushStyle}
           isMain={true}
+          exportFormat={exportFormat}
+          onExportFormatChange={setExportFormat}
         />
       </div>
 
@@ -317,7 +225,7 @@ export function DrawingCanvas() {
           onPressureMultiplierChange={setPressureMultiplier}
           onTransparentBackgroundChange={setTransparentBackground}
           onClear={handleClear}
-          onExport={handleExport}
+          onExport={handleFormatExport}
           onUndo={handleUndo}
           onRedo={handleRedo}
           canUndo={canUndo}
@@ -325,8 +233,12 @@ export function DrawingCanvas() {
           brushStyle={brushStyle}
           onBrushStyleChange={setBrushStyle}
           isMain={false}
+          exportFormat={exportFormat}
+          onExportFormatChange={setExportFormat}
         />
       </div>
+
+
     </div>
   );
 }

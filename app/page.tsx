@@ -1,7 +1,7 @@
 "use client";
 
 import dynamic from "next/dynamic";
-import { VectorCanvas } from "@/components/vector-canvas/VectorCanvas";
+// import { VectorCanvas } from "@/components/vector-canvas/VectorCanvas";
 
 const DrawingCanvas = dynamic(
   () =>
