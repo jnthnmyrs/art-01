@@ -144,16 +144,16 @@ export function ToolBar({
         </>
       ) : (
         <>
-          <div className="flex lg:flex-col gap-4 p-2">
+          <div className="flex lg:flex-col gap-2 py-2">
             {/* Desktop Color Picker */}
-            <div className="w-fit z-10">
-              <div className="p-2 bg-white/80 backdrop-blur rounded-lg shadow-sm">
+
+              <div className="p-2 bg-white/80 backdrop-blur rounded-lg shadow-sm flex items-center justify-center">
                 <ColorPicker
                   selectedColor={color}
                   onColorChange={onColorChange}
                 />
               </div>
-            </div>
+
 
             {/* Actions Group */}
             <div className="flex flex-row lg:flex-col lg:justify-between w-fit items-center gap-2 p-2 bg-white/80 backdrop-blur rounded-lg shadow-sm">
@@ -165,6 +165,7 @@ export function ToolBar({
                       variant="ghost"
                       onClick={onUndo}
                       disabled={!canUndo}
+
                     >
                       <Undo2 className="h-4 w-4" />
                     </Button>
@@ -190,7 +191,11 @@ export function ToolBar({
                   </TooltipContent>
                 </Tooltip>
 
+                
+              </TooltipProvider>
+            </div>
 
+            <div className="flex flex-row lg:flex-col lg:justify-between w-fit items-center gap-1 p-2 bg-white/80 backdrop-blur rounded-lg shadow-sm">
                   <TooltipProvider>
                     {/* Format Selection Dropdown */}
                     <Tooltip>
@@ -218,7 +223,7 @@ export function ToolBar({
                         </DropdownMenu>
                       </TooltipTrigger>
                       <TooltipContent>
-                        <p>Export Format</p>
+                        Export Format
                       </TooltipContent>
                     </Tooltip>
 
@@ -234,10 +239,7 @@ export function ToolBar({
                       </TooltipContent>
                     </Tooltip>
                   </TooltipProvider>
-                
-              </TooltipProvider>
-            </div>
-
+                </div>
 
 
             {/* Clear Button */}
