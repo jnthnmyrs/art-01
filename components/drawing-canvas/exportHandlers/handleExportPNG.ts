@@ -9,7 +9,7 @@ export const handleExportPNG = (stageRef: StageRef, showToast: ShowToast) => {
     return;
   }
 
-  const { pixelRatio, addWatermark } = TIER_FEATURES.pro;
+  const { pixelRatio, addWatermark } = TIER_FEATURES.free;
 
   stage.toDataURL({
     pixelRatio,
