@@ -49,9 +49,9 @@ export const handleExportPNG = (stageRef: StageRef, showToast: ShowToast) => {
     },
   });
 
-  track("Downloaded drawing");
+  track("Downloaded PNG drawing");
   showToast({
-    title: "Drawing saved! 🎨",
+    title: "PNG saved! 🎨",
     description: "Your masterpiece has been downloaded to your computer.",
     duration: 3000,
   });

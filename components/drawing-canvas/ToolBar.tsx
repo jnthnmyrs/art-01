@@ -199,9 +199,9 @@ export function ToolBar({
                           <DropdownMenuTrigger asChild>
                             <Button size="icon" variant="outline">
                               {exportFormat === 'png' ? (
-                                <span className="text-xs">PNG</span>
+                                <FileImage className="h-4 w-4" />
                               ) : (
-                                <span className="text-xs">SVG</span>
+                                <Tangent className="h-4 w-4" />
                               )}
                             </Button>
                           </DropdownMenuTrigger>

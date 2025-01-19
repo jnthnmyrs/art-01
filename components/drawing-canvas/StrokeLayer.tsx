@@ -25,6 +25,7 @@ export default function StrokeLayer({ lines }: StrokeLayerProps) {
         return (
           <Shape
             key={i}
+            lineData={line}
             sceneFunc={(context) => {
               context.beginPath();
               
