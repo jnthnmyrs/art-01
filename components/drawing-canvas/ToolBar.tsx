@@ -210,9 +210,9 @@ export function ToolBar({
                               <FileImage className="mr-2 h-4 w-4" />
                               <span className="text-xs">PNG {exportFormat === 'png' && '✓'}</span>
                             </DropdownMenuItem>
-                            <DropdownMenuItem onClick={() => onExportFormatChange('svg')}>
+                            <DropdownMenuItem disabled={true} onClick={() => onExportFormatChange('svg')} className="disabled:opacity-50">
                               <Tangent className="mr-2 h-4 w-4" />
-                              <span className="text-xs">SVG {exportFormat === 'svg' && '✓'}</span>
+                              <span className="text-xs">SVG {exportFormat === 'svg' && '✓'} (Coming Soon)</span>
                             </DropdownMenuItem>
                           </DropdownMenuContent>
                         </DropdownMenu>
