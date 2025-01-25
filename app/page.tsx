@@ -2,14 +2,14 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import FadeUp from "@/components/FadeUp";
-
+import LandingPageElements from "@/components/LandingPageElements";
 
 export default function Home() {
   return (
-    <div className="flex flex-col min-h-screen bg-gray-100">
+    <div className="flex flex-col relative min-h-screen bg-gray-100">
       {/* Hero Section */}
       <main className="flex-1">
-        <div className="container mx-auto px-4 py-16 sm:py-24">
+        <div className="relative container mx-auto px-4 py-16 sm:py-24">
           <div className="text-center space-y-8">
             <FadeUp>
               <Image
@@ -41,7 +41,12 @@ export default function Home() {
               </div>
             </FadeUp>
           </div>
+
+            <LandingPageElements />
+
         </div>
+
+        
 
         {/* Features Section */}
         <div className=" features-section py-16">
