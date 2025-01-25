@@ -37,6 +37,8 @@ export function useKeyboardShortcuts({
   onExportFormatChange,
 }: KeyboardShortcutProps) {
   useEffect(() => {
+    const isMac = navigator.platform.toUpperCase().indexOf('MAC') >= 0;
+    
     const handleKeyDown = (e: KeyboardEvent) => {
       // Don't trigger shortcuts if user is typing in an input
       if (e.target instanceof HTMLInputElement || e.target instanceof HTMLTextAreaElement) {
@@ -47,9 +49,12 @@ export function useKeyboardShortcuts({
         setTool('brush');
       } else if (e.key === 'e') {
         setTool('eraser');
-      } else if (e.key === 'i') {
+      } else if (
+        (isMac && (e.ctrlKey && e.key.toLowerCase() === 'c' || e.key === 'i')) ||
+        (!isMac && e.key === 'i')
+      ) {
         activateEyeDropper(onColorChange);
-      } else if (e.key === '[' || e.key === ']') {
+      } else if (e.key === '[' || e.key === 'a' || e.key === ']' || e.key === 's') {
         // Find current size index
         const currentIndex = BRUSH_SIZES.findIndex(
           size => size.value === pressureMultiplier
@@ -57,8 +62,8 @@ export function useKeyboardShortcuts({
         
         if (currentIndex === -1) return;
 
-        // Decrease size with [, increase with ]
-        const newIndex = e.key === '[' 
+        // Decrease size with [ or A, increase with ] or S
+        const newIndex = (e.key === '[' || e.key === 'a')
           ? Math.max(0, currentIndex - 1)
           : Math.min(BRUSH_SIZES.length - 1, currentIndex + 1);
 
@@ -81,5 +86,5 @@ export function useKeyboardShortcuts({
 
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [onUndo, onRedo, setTool, setPressureMultiplier, pressureMultiplier, onColorChange, onExport, exportFormat, onExportFormatChange]);
+  }, [onUndo, onRedo, setTool, setPressureMultiplier, pressureMultiplier, onColorChange, onExport]);
 } 
