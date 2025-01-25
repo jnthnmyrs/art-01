@@ -33,8 +33,8 @@ export function useKeyboardShortcuts({
   pressureMultiplier,
   onColorChange,
   onExport,
-  exportFormat,
-  onExportFormatChange,
+  // exportFormat,
+  // onExportFormatChange,
 }: KeyboardShortcutProps) {
   useEffect(() => {
     const isMac = navigator.platform.toUpperCase().indexOf('MAC') >= 0;

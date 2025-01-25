@@ -4,7 +4,7 @@ import "./globals.css";
 import { Toaster } from "@/components/ui/toaster";
 import { AboutDialog } from "@/components/AboutDialog";
 import { Analytics } from "@vercel/analytics/react";
-import Image from "next/image";
+
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
