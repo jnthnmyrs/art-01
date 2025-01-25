@@ -70,3 +70,11 @@ body {
     @apply bg-background text-foreground;
   }
 }
+
+
+.features-section {
+  background-image: url('/landing-page/feature-background.svg');
+  background-size: 100%;
+  background-position: center;
+  background-repeat: no-repeat;
+}

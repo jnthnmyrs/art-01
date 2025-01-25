@@ -44,7 +44,7 @@ export default function Home() {
         </div>
 
         {/* Features Section */}
-        <div className="bg-white py-16">
+        <div className=" features-section py-16">
           <div className="container mx-auto px-4">
             <div className="grid md:grid-cols-3 px-8 gap-16 items-center lg:gap-48 max-w-7xl mx-auto">
               <FadeUp delay={0.2}>
