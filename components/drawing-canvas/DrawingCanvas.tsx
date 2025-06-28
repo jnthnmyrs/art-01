@@ -9,13 +9,13 @@ import type Konva from "konva";
 import StrokeLayer from "./StrokeLayer";
 import { Stage, Layer } from "react-konva";
 
-// import { TIER_FEATURES } from "@/types/subscription";
+
 import { useToast } from "@/hooks/use-toast";
 import { handleExportPNG, handleExportSVG } from './exportHandlers';
 
 const MAX_CANVAS_SIZE = 3000;
 const DEFAULT_TRANSPARENT_BACKGROUND = false;
-// const ACCOUNT_LEVEL = TIER_FEATURES.pro;
+
 
 export function DrawingCanvas() {
   const containerRef = useRef<HTMLDivElement>(null);
