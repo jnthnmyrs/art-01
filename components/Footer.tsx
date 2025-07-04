@@ -11,7 +11,7 @@ import Link from "next/link"
 export function Footer() {
   return (<>
           {/* Footer */}
-          <footer className=" pt-8 pb-16">
+          <footer className=" pt-8 pb-8">
           <div className="container mx-auto px-6 text-center">
             <div
 

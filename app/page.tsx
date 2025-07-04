@@ -135,8 +135,9 @@ export default function Home() {
             </div>
           </div>
         </div>
-
-        <Footer />
+        <div className="pb-8">
+          <Footer />
+        </div>
       </main>
     </div>
   );
