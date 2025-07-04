@@ -1,6 +1,15 @@
 "use client";
 
-import { Brush, Eraser, Undo2, Redo2, Trash2, Download,  FileImage, Tangent,  } from "lucide-react";
+import {
+  Brush,
+  Eraser,
+  Undo2,
+  Redo2,
+  Trash2,
+  Download,
+  FileImage,
+  Tangent,
+} from "lucide-react";
 import {
   Tooltip,
   TooltipContent,
@@ -17,7 +26,6 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { AboutDialog } from "../AboutDialog";
-
 
 interface ToolBarProps {
   tool: "brush" | "eraser";
@@ -37,8 +45,8 @@ interface ToolBarProps {
   brushStyle: BrushStyle;
   onBrushStyleChange: (style: BrushStyle) => void;
   isMain: boolean;
-  exportFormat: 'png' | 'svg';
-  onExportFormatChange: (format: 'png' | 'svg') => void;
+  exportFormat: "png" | "svg";
+  onExportFormatChange: (format: "png" | "svg") => void;
 }
 
 const BRUSH_SIZES = [
@@ -148,13 +156,12 @@ export function ToolBar({
           <div className="flex lg:flex-col gap-2 py-2">
             {/* Desktop Color Picker */}
 
-              <div className="p-2 bg-white/80 backdrop-blur rounded-lg shadow-sm flex items-center justify-center">
-                <ColorPicker
-                  selectedColor={color}
-                  onColorChange={onColorChange}
-                />
-              </div>
-
+            <div className="p-2 bg-white/80 backdrop-blur rounded-lg shadow-sm flex items-center justify-center">
+              <ColorPicker
+                selectedColor={color}
+                onColorChange={onColorChange}
+              />
+            </div>
 
             {/* Actions Group */}
             <div className="flex flex-row lg:flex-col lg:justify-between w-fit items-center gap-2 p-2 bg-white/80 backdrop-blur rounded-lg shadow-sm">
@@ -166,12 +173,11 @@ export function ToolBar({
                       variant="ghost"
                       onClick={onUndo}
                       disabled={!canUndo}
-
                     >
                       <Undo2 className="h-4 w-4" />
                     </Button>
                   </TooltipTrigger>
-                  <TooltipContent>
+                  <TooltipContent side="left">
                     <p>Undo (Ctrl/⌘ + Z)</p>
                   </TooltipContent>
                 </Tooltip>
@@ -187,83 +193,96 @@ export function ToolBar({
                       <Redo2 className="h-4 w-4" />
                     </Button>
                   </TooltipTrigger>
-                  <TooltipContent>
+                  <TooltipContent side="left">
                     <p>Redo (Ctrl/⌘ + Shift + Z)</p>
                   </TooltipContent>
                 </Tooltip>
-
-                
               </TooltipProvider>
             </div>
 
             <div className="flex flex-row lg:flex-col lg:justify-between w-fit items-center gap-1 p-2 bg-white/80 backdrop-blur rounded-lg shadow-sm">
-                  <TooltipProvider>
-                    {/* Format Selection Dropdown */}
-                    <Tooltip>
-                      <TooltipTrigger asChild>
-                        <DropdownMenu>
-                          <DropdownMenuTrigger asChild>
-                            <Button size="icon" variant="outline">
-                              {exportFormat === 'png' ? (
-                                <FileImage className="h-4 w-4" />
-                              ) : (
-                                <Tangent className="h-4 w-4" />
-                              )}
-                            </Button>
-                          </DropdownMenuTrigger>
-                          <DropdownMenuContent>
-                            <DropdownMenuItem onClick={() => onExportFormatChange('png')}>
-                              <FileImage className="mr-2 h-4 w-4" />
-                              <span className="text-xs">PNG {exportFormat === 'png' && '✓'}</span>
-                            </DropdownMenuItem>
-                            <DropdownMenuItem disabled={true} onClick={() => onExportFormatChange('svg')} className="disabled:opacity-50">
-                              <Tangent className="mr-2 h-4 w-4" />
-                              <span className="text-xs">SVG {exportFormat === 'svg' && '✓'} (Coming Soon)</span>
-                            </DropdownMenuItem>
-                          </DropdownMenuContent>
-                        </DropdownMenu>
-                      </TooltipTrigger>
-                      <TooltipContent>
-                        Export Format
-                      </TooltipContent>
-                    </Tooltip>
-
-                    {/* Download Button */}
-                    <Tooltip>
-                      <TooltipTrigger asChild>
-                        <Button size="icon" variant="outline" onClick={onExport} className="bg-blue-600 hover:bg-blue-700">
-                          <Download className="h-4 w-4 text-white" />
+              <TooltipProvider>
+                {/* Format Selection Dropdown */}
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <DropdownMenu>
+                      <DropdownMenuTrigger asChild>
+                        <Button size="icon" variant="outline">
+                          {exportFormat === "png" ? (
+                            <FileImage className="h-4 w-4" />
+                          ) : (
+                            <Tangent className="h-4 w-4" />
+                          )}
                         </Button>
-                      </TooltipTrigger>
-                      <TooltipContent>
-                        <p>Save Drawing (Ctrl/⌘ + Shift + S)</p>
-                      </TooltipContent>
-                    </Tooltip>
-                  </TooltipProvider>
-                </div>
+                      </DropdownMenuTrigger>
+                      <DropdownMenuContent>
+                        <DropdownMenuItem
+                          onClick={() => onExportFormatChange("png")}
+                        >
+                          <FileImage className="mr-2 h-4 w-4" />
+                          <span className="text-xs">
+                            PNG {exportFormat === "png" && "✓"}
+                          </span>
+                        </DropdownMenuItem>
+                        <DropdownMenuItem
+                          disabled={true}
+                          onClick={() => onExportFormatChange("svg")}
+                          className="disabled:opacity-50"
+                        >
+                          <Tangent className="mr-2 h-4 w-4" />
+                          <span className="text-xs">
+                            SVG {exportFormat === "svg" && "✓"} (Coming Soon)
+                          </span>
+                        </DropdownMenuItem>
+                      </DropdownMenuContent>
+                    </DropdownMenu>
+                  </TooltipTrigger>
+                  <TooltipContent >Export Format</TooltipContent>
+                </Tooltip>
+
+                {/* Download Button */}
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <Button
+                      size="icon"
+                      variant="outline"
+                      onClick={onExport}
+                      className="bg-blue-600 hover:bg-blue-700"
+                    >
+                      <Download className="h-4 w-4 text-white" />
+                    </Button>
+                  </TooltipTrigger>
+                  <TooltipContent side="left">
+                    <p>Save Drawing (Ctrl/⌘ + Shift + S)</p>
+                  </TooltipContent>
+                </Tooltip>
+              </TooltipProvider>
+            </div>
 
             {/* About Dialog */}
-            <div className="flex flex-row lg:flex-col w-fit items-center gap-2 p-2 bg-white/80 backdrop-blur rounded-lg shadow-sm">
+            <div className=" hidden lg:flex flex-row lg:flex-col w-fit items-center gap-2 p-2 bg-white/80 backdrop-blur rounded-lg shadow-sm">
               <AboutDialog />
             </div>
 
             {/* Clear Button */}
-            <div className="flex flex-row lg:flex-col w-fit items-center gap-2 p-2 bg-white/80 backdrop-blur rounded-lg shadow-sm">
+            <div className="bottom-0 lg:absolute  flex flex-row lg:flex-col w-fit items-center gap-2 p-2 bg-white/80 backdrop-blur rounded-lg shadow-sm">
               <TooltipProvider>
-                <Tooltip>
-                  <TooltipTrigger asChild>
-                    <Button size="icon" variant="destructive" onClick={onClear}>
+                <Tooltip >
+                  <TooltipTrigger asChild >
+                    <Button size="icon" variant="destructive" onClick={onClear} className="bg-red-600 hover:bg-red-700">
                       <Trash2 className="h-4 w-4" />
                     </Button>
                   </TooltipTrigger>
-                  <TooltipContent>
+                  <TooltipContent side="left">
                     <p>Clear Canvas</p>
                   </TooltipContent>
                 </Tooltip>
               </TooltipProvider>
             </div>
-
-
+          </div>
+          {/* About Dialog */}
+          <div className=" lg:hidden flex-row lg:flex-col w-fit mx-auto items-center gap-2 p-2 bg-white/80 backdrop-blur rounded-lg shadow-sm">
+            <AboutDialog />
           </div>
         </>
       )}

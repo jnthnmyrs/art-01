@@ -74,7 +74,7 @@ export function ColorPicker({ selectedColor, onColorChange }: ColorPickerProps) 
                 <div className="w-4 h-4 rounded-full" style={{ backgroundColor: selectedColor }} />
               </Button>
             </TooltipTrigger>
-            <TooltipContent>
+            <TooltipContent side="left">
               <p>Open color picker</p>
             </TooltipContent>
           </Tooltip>
@@ -101,7 +101,7 @@ export function ColorPicker({ selectedColor, onColorChange }: ColorPickerProps) 
                   <Pipette className="h-4 w-4" />
                 </Button>
               </TooltipTrigger>
-              <TooltipContent>
+              <TooltipContent side="left">
                 <p>Pick color from screen (I)</p>
               </TooltipContent>
             </Tooltip>
