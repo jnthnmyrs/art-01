@@ -1,7 +1,7 @@
 "use client";
 
 import dynamic from "next/dynamic";
-import { AboutDialog } from "@/components/AboutDialog";
+
 
 
 const DrawingCanvas = dynamic(
