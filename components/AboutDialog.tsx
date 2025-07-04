@@ -13,6 +13,7 @@ import {
 
 import { useMemo } from "react";
 import { Footer } from "./Footer";
+import { Info } from "lucide-react";
 
 export function AboutDialog() {
   // Detect OS
@@ -38,16 +39,11 @@ export function AboutDialog() {
     <Dialog>
       <DialogTrigger asChild>
         <Button
-          variant="ghost"
+          variant="outline"
           size="icon"
-          className="absolute bottom-4 right-4 h-8 w-8 rounded-full bg-white/80 backdrop-blur hover:bg-white/90 drop-shadow-md hover:drop-shadow-lg transition-all duration-200"
+          className=" h-8 w-8 "
         >
-          <Image
-            src="/info-mark.png"
-            alt="Drawww Time Info"
-            width={32}
-            height={32}
-          />
+          <Info className="h-4 w-4" />
         </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px] text-left">

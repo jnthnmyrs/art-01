@@ -16,6 +16,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { AboutDialog } from "../AboutDialog";
 
 
 interface ToolBarProps {
@@ -230,8 +231,8 @@ export function ToolBar({
                     {/* Download Button */}
                     <Tooltip>
                       <TooltipTrigger asChild>
-                        <Button size="icon" variant="outline" onClick={onExport}>
-                          <Download className="h-4 w-4" />
+                        <Button size="icon" variant="outline" onClick={onExport} className="bg-blue-600 hover:bg-blue-700">
+                          <Download className="h-4 w-4 text-white" />
                         </Button>
                       </TooltipTrigger>
                       <TooltipContent>
@@ -241,6 +242,10 @@ export function ToolBar({
                   </TooltipProvider>
                 </div>
 
+            {/* About Dialog */}
+            <div className="flex flex-row lg:flex-col w-fit items-center gap-2 p-2 bg-white/80 backdrop-blur rounded-lg shadow-sm">
+              <AboutDialog />
+            </div>
 
             {/* Clear Button */}
             <div className="flex flex-row lg:flex-col w-fit items-center gap-2 p-2 bg-white/80 backdrop-blur rounded-lg shadow-sm">
@@ -257,6 +262,8 @@ export function ToolBar({
                 </Tooltip>
               </TooltipProvider>
             </div>
+
+
           </div>
         </>
       )}
