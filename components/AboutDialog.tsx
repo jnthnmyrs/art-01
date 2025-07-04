@@ -38,11 +38,7 @@ export function AboutDialog() {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button
-          variant="outline"
-          size="icon"
-          className=" h-8 w-8 "
-        >
+        <Button variant="outline" size="icon" className=" h-8 w-8 ">
           <Info className="h-4 w-4" />
         </Button>
       </DialogTrigger>
@@ -117,6 +113,18 @@ export function AboutDialog() {
             </div>
           </div>
         </DialogHeader>
+
+        <div className="flex flex-col  justify-center mt-4">
+          <p className="text-sm text-gray-500">
+            {`I made Drawww Time just for fun. It brings a small piece of Flash back to the web. Explore all the wonders of vector drawing and share it with you very best friends.`}
+          </p>
+          <p className="text-sm text-gray-500 mt-2">
+            {`Colorfully,`}
+          </p>
+          <p className="text-sm text-gray-500 ">
+            {`Jonathan Bezier`}
+          </p>
+        </div>
         <Footer />
       </DialogContent>
     </Dialog>
