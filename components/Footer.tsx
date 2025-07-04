@@ -20,7 +20,7 @@ export function Footer() {
   
   
               <Link 
-                href="https://jonathan.now" 
+                href="https://jonathanandrewmyers.com" 
                 target="_blank" 
                 rel="noopener noreferrer"
                 className="hover:text-black transition-colors duration-200"

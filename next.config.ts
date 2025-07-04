@@ -2,10 +2,10 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   webpack: (config) => {
-    // Handle canvas dependency for react-konva during SSR
+    // Externalize canvas for react-konva SSR compatibility
     config.externals = [
       ...(config.externals || []),
-      { canvas: "canvas" }
+      { canvas: false }
     ];
     return config;
   }
