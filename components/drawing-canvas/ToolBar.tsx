@@ -225,13 +225,13 @@ export function ToolBar({
                           </span>
                         </DropdownMenuItem>
                         <DropdownMenuItem
-                          disabled={true}
+                          disabled={false}
                           onClick={() => onExportFormatChange("svg")}
                           className="disabled:opacity-50"
                         >
                           <Tangent className="mr-2 h-4 w-4" />
                           <span className="text-xs">
-                            SVG {exportFormat === "svg" && "✓"} (Coming Soon)
+                            SVG {exportFormat === "svg" && "✓"} ({`It's new!`})
                           </span>
                         </DropdownMenuItem>
                       </DropdownMenuContent>
@@ -253,7 +253,7 @@ export function ToolBar({
                     </Button>
                   </TooltipTrigger>
                   <TooltipContent side="left">
-                    <p>Save Drawing (Ctrl/⌘ + Shift + S)</p>
+                    <p>Save Drawing</p>
                   </TooltipContent>
                 </Tooltip>
               </TooltipProvider>
