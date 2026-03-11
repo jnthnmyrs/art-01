@@ -16,4 +16,5 @@ export interface Line {
   tool: 'brush' | 'eraser';
   pressureMultiplier: number;
   brushStyle: BrushStyle;
+  usePressureSensitivity: boolean;
 } 

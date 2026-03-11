@@ -32,12 +32,14 @@ export function DrawingCanvas() {
     tool,
     color,
     pressureMultiplier,
+    usePressureSensitivity,
     handleMouseDown,
     handleMouseMove,
     handleMouseUp,
     setTool,
     setColor,
     setPressureMultiplier,
+    setUsePressureSensitivity,
     handleClear,
     handleUndo,
     handleRedo,
@@ -163,10 +165,12 @@ export function DrawingCanvas() {
           color={color}
           pressureMultiplier={pressureMultiplier}
           transparentBackground={transparentBackground}
+          usePressureSensitivity={usePressureSensitivity}
           onToolChange={setTool}
           onColorChange={setColor}
           onPressureMultiplierChange={setPressureMultiplier}
           onTransparentBackgroundChange={setTransparentBackground}
+          onUsePressureSensitivityChange={setUsePressureSensitivity}
           onClear={handleClear}
           onExport={handleFormatExport}
           onUndo={handleUndo}
@@ -220,10 +224,12 @@ export function DrawingCanvas() {
           color={color}
           pressureMultiplier={pressureMultiplier}
           transparentBackground={transparentBackground}
+          usePressureSensitivity={usePressureSensitivity}
           onToolChange={setTool}
           onColorChange={setColor}
           onPressureMultiplierChange={setPressureMultiplier}
           onTransparentBackgroundChange={setTransparentBackground}
+          onUsePressureSensitivityChange={setUsePressureSensitivity}
           onClear={handleClear}
           onExport={handleFormatExport}
           onUndo={handleUndo}

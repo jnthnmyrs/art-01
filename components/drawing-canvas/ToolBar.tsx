@@ -9,6 +9,7 @@ import {
   Download,
   FileImage,
   Tangent,
+  Gauge,
 } from "lucide-react";
 import {
   Tooltip,
@@ -32,10 +33,12 @@ interface ToolBarProps {
   color: string;
   pressureMultiplier: number;
   transparentBackground: boolean;
+  usePressureSensitivity: boolean;
   onToolChange: (tool: "brush" | "eraser") => void;
   onColorChange: (color: string) => void;
   onPressureMultiplierChange: (value: number) => void;
   onTransparentBackgroundChange: (transparent: boolean) => void;
+  onUsePressureSensitivityChange: (enabled: boolean) => void;
   onClear: () => void;
   onExport: () => void;
   onUndo: () => void;
@@ -63,10 +66,12 @@ export function ToolBar({
   tool,
   color,
   pressureMultiplier,
+  usePressureSensitivity,
   // transparentBackground,
   onToolChange,
   onColorChange,
   onPressureMultiplierChange,
+  onUsePressureSensitivityChange,
   // onTransparentBackgroundChange,
   onClear,
   onExport,
@@ -114,6 +119,21 @@ export function ToolBar({
                   </TooltipTrigger>
                   <TooltipContent>
                     <p>Eraser (E)</p>
+                  </TooltipContent>
+                </Tooltip>
+
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <Button
+                      size="icon"
+                      variant={usePressureSensitivity ? "default" : "ghost"}
+                      onClick={() => onUsePressureSensitivityChange(!usePressureSensitivity)}
+                    >
+                      <Gauge className="h-4 w-4" />
+                    </Button>
+                  </TooltipTrigger>
+                  <TooltipContent>
+                    <p>Pressure Sensitivity ({usePressureSensitivity ? "On" : "Off"})</p>
                   </TooltipContent>
                 </Tooltip>
               </TooltipProvider>

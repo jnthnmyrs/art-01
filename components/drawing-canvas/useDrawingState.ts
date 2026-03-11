@@ -15,6 +15,7 @@ export function useDrawingState() {
   const [color, setColor] = useState('#000000');
   const [pressureMultiplier, setPressureMultiplier] = useState(10);
   const [brushStyle, setBrushStyle] = useState<BrushStyle>('round');
+  const [usePressureSensitivity, setUsePressureSensitivity] = useState(true);
   const isDrawing = useRef(false);
   const lastPoints = useRef<Point[]>([]);
   const undoStack = useRef<Line[][]>([]);
@@ -76,7 +77,9 @@ export function useDrawingState() {
 
   const handleMouseDown = (e: Konva.KonvaEventObject<PointerEvent>) => {
     isDrawing.current = true;
-    const pressure = e.evt.pressure !== 0 ? e.evt.pressure : 1;
+    const pressure = usePressureSensitivity 
+      ? (e.evt.pressure !== 0 ? e.evt.pressure : 1)
+      : 1;
     const pos = e.target.getStage()?.getPointerPosition();
     if (!pos) return;
 
@@ -91,6 +94,7 @@ export function useDrawingState() {
       tool,
       pressureMultiplier,
       brushStyle,
+      usePressureSensitivity,
     }]);
   };
 
@@ -101,7 +105,9 @@ export function useDrawingState() {
     const point = stage?.getPointerPosition();
     if (!point) return;
 
-    const pressure = e.evt.pressure !== 0 ? e.evt.pressure : 1;
+    const pressure = usePressureSensitivity 
+      ? (e.evt.pressure !== 0 ? e.evt.pressure : 1)
+      : 1;
     const newPoint = { x: point.x, y: point.y, pressure };
     
     // Add new point to our points array
@@ -143,12 +149,14 @@ export function useDrawingState() {
     tool,
     color,
     pressureMultiplier,
+    usePressureSensitivity,
     handleMouseDown,
     handleMouseMove,
     handleMouseUp,
     setTool,
     setColor,
     setPressureMultiplier,
+    setUsePressureSensitivity,
     handleClear,
     handleUndo,
     handleRedo,
